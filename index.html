@@ -8,6 +8,7 @@
 body {font-family:Verdana, Arial, sans-serif;
       ;
 }
+.center {text-align:center}
 
 #wrapper { 
 		   margin: auto;
@@ -29,10 +30,28 @@ header{
     border: 2px solid;
 }
 
+.flexcontainer {display:flex;
+    flex-direction: horizontal;
+    gap: 30px;
+                }
+
+#verticalflex{flex-direction: vertical;}                
+
+h2 {text-align: center;
+  }
+.box{
+  width: 600px;
+  height: 600px;
+  font-size: 10; 
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  border:3px solid   
+}
 
 footer {font-size:70%;
          text-align: center;
-		 clear: right;
+		     clear: right;
          padding-bottom:20px;
 }	
 
@@ -43,9 +62,12 @@ nav a {	margin: 30px;
     padding-right: 10px;
 } 
 
+
 </style> 
 </head>
+
 <body>
+<!-- Container for the website -->
 <div id="wrapper">
   <header>
     <h1>Leafy Bites</h1>
@@ -53,13 +75,80 @@ nav a {	margin: 30px;
     <nav class="linkcontainer">
       <a href="Category">Home</a>
       <a href="My Order">My Order</a>
-	</nav>
-    
-    <footer>Copyright &copy; Leafy Bites 2023
-    </footer>
+	  </nav>
   
+<h2> Daily Specials !!</h2>
+
+<div class="flexcontainer" >
+  <!-- First Box of Daily Specials -->
+    <div class="box">  
+      <div id="verticalflex" > <img src="burger.png" width = 200, height="200" alt="McChicken">
+        <p style="text-align: center;"> Mc Chicken set <br>
+          Grab it now at only $9.99 !
+        </p>
+      </div>
+    </div>
+  <!-- Second Box of Daily Specials -->
+    <div class="box">
+      <div id="verticalflex" > <img src="burger.png" width = 200, height="200" alt="McChicken">
+        <p style="text-align: center;"> Mc Chicken set <br>
+          Grab it now at only $9.99 !
+        </p>
+      </div>
+    </div>
+
+    <div class="box">
+      <div id="verticalflex" > <img src="burger.png" width = 200, height="200" alt="McChicken">
+        <p style="text-align: center;"> Mc Chicken set <br>
+          Grab it now at only $9.99 !
+        </p>
+      </div>
+    </div>
 </div>
+
+<br><br><br>
+
+<h2> Leafy Bites Proudly Present </h2>
+<div class="flexcontainer" >
+
+  <!-- First Box of Daily Specials -->
+    <div class="box">  
+      <div id="verticalflex" > <h3 style="text-align: center;">Services</h3>
+        <p style="text-align: center;"> We offer delivery too ! <br> Singapore Islandwide <br><br>
+          Mon-Fri: 10am - 8pm <br>
+          Sat-Sun: 11am - 9pm
+        </p>
+      </div>
+    </div>
+  <!-- Second Box of Daily Specials -->
+    <div class="box">
+      <div id="verticalflex" > <h3 style="text-align: center;">Subscribe to Leafy Bites now to get our special offers !</h3>
+        <p style="text-align: center;"> <br>
+          
+        </p>
+      </div>
+    </div>
+
+    <div class="box">
+      <div id="verticalflex" > <h3 style="text-align: center;">Contact Us </h3>
+        <p style="text-align: center;"> Tel: 8188-6905 (Vilan)<br> Tel: 8683-4492 (Vignesh)<br><br> Email: leafybitescorp@gmail.com<br><br>
+          50 Nanyang Walk, 639929 Singapore
+          
+        </p>
+      </div>
+    </div>
+</div>
+
+</div>
+
+
 </body>
+<footer style="background-color: #e3f0e7;">
+  <br>
+  <input type="submit" name ="name" id="name" value="Admin Login"><br>
+
+  Copyright &copy; Leafy Bites 2023 <br> All rights reserved.
+</footer>
 </html>
 
 
