@@ -1,0 +1,130 @@
+ /* Main body */ 
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #e3f0e7;}
+
+.center {
+    text-align:center}
+
+.wrapper { 
+    margin: auto;
+    min-width:850px;}
+
+
+.wrapper .logo{
+    margin-top: 0;
+    text-align: center;
+    margin-bottom: 0px;
+    width: 60px;
+    height: 60px;}
+
+.wrapper img{
+    width: 400px;
+    height: 400px;
+    padding-top: 50px;
+    padding-bottom: 50px;}
+
+
+h1{
+    margin-top: 0px;
+    text-align: center;
+    display: flex;
+    justify-content: center;} 
+
+header{ 
+    margin-top: 20px;
+    background-color: #e3f0e7;
+    padding-bottom: 40px;}
+    
+p {
+    color: #3b625a;}
+
+/* .linkcontainer{
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid;
+} */
+
+.flexcontainer {
+    padding-bottom: 100px;
+    /* border-style: solid; */
+    background-color: #FFFFFF;
+    justify-content:center ;
+    display:flex;
+    flex-direction: horizontal;
+    width: 100%;
+    gap: 30px;}
+
+#verticalflex{
+    flex-direction: vertical;}                
+
+h2 {
+    color: #3b625a;
+    text-align: center;}
+
+.box{
+    width: 600px;
+    height: 600px;
+    font-size: 10; 
+    display:flex;
+    /* border-style:solid; */
+    justify-content: center;
+    align-items: center;}
+
+.button {
+    width:100px;
+    height:30px;
+    background-color: #115448;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;}
+
+/* Footer */
+.semicircle {
+    padding-top: 50px;
+    position: relative;
+    background: #115448;
+    height: 90px;}
+
+.semicircle img{
+    position: absolute;
+    content: '';
+    left: 50%;
+    padding-top: 3px;
+    padding-right: 3px;
+    padding-left: 1px;
+    width: 104.5px;
+    height: 105px;
+    border-radius: 60%;
+    background: #115448;
+    transform: translateX(-49%) translateY(-90%);}
+
+footer {
+    font-size:15px;
+    text-align: center;
+    clear: right;
+    padding-bottom:20px;
+    background-color: #e3f0e7;}	
+
+footer .flexcontainer{
+    padding-bottom: 0;
+    background-color: #e3f0e7;
+    height: 300px;}
+
+footer .box{
+    height:300px}
+
+/* Navigation bar  */
+nav ul { 
+    list-style-type:none}
+
+nav li {
+    display: inline;}
+
+nav a {	
+    margin: 30px;
+    text-decoration: none;
+    padding-right: 10px;} 
