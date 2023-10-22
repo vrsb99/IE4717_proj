@@ -71,6 +71,11 @@ h2 {
     justify-content: center;
     align-items: center;}
 
+.box img{
+    width : 400px;
+    height: 400px;
+    border: #115448;}
+
 .button {
     width:100px;
     height:30px;
@@ -116,6 +121,12 @@ footer .flexcontainer{
 footer .box{
     height:300px}
 
+footer input{
+   border: none; 
+   border-bottom:solid 2px #115448; 
+   background-color: #e3f0e7; 
+   text-align: center;}
+
 /* Navigation bar  */
 nav ul { 
     list-style-type:none}
@@ -123,7 +134,34 @@ nav ul {
 nav li {
     display: inline;}
 
+nav :hover{
+    color:orange}
+
 nav a {	
     margin: 30px;
     text-decoration: none;
     padding-right: 10px;} 
+
+/* Login Form */
+
+.loginFormBackground{
+    margin-top: 100px;
+    background-size: cover;
+    content: "";
+    background-image: url('./img/opaquebg.png');
+    width:400px;
+    height:400px;}
+
+.loginForm {
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    margin-top: 100px;
+}
+
+.loginForm input{
+    border-radius: 4px;
+    width:400px;
+    height:30px;
+    padding: 2px
+}
