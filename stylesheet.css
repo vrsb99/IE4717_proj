@@ -87,6 +87,11 @@ h2 {
     font-size: 16px;
     cursor: pointer;}
 
+.button:hover{
+    background-color: #de9f7e;
+    transition:0.5s;
+    color:#115448}
+
 /* Footer */
 .semicircle {
     padding-top: 50px;
@@ -135,10 +140,11 @@ nav li {
     display: inline;}
 
 nav :hover{
-    color:orange}
+    color:#de9f7e}
 
 nav a {	
     margin: 30px;
+    color: #3b625a;
     text-decoration: none;
     padding-right: 10px;} 
 
