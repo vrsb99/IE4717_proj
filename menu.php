@@ -8,10 +8,13 @@ if (mysqli_connect_errno()) {
 
 $query = "SELECT * FROM category";
 $categories = $db->query($query);
+$num_categories = $categories->num_rows;
 $query = "SELECT * FROM items";
 $items = $db->query($query);
+$num_items = $items->num_rows;
 $query = "SELECT * FROM sizes";
 $sizes = $db->query($query);
+$num_sizes = $sizes->num_rows;
 ?>
 
 <!DOCTYPE html>
@@ -45,44 +48,40 @@ $sizes = $db->query($query);
       <h1 style="color:#115448">Menu</h1>
       <div id="navbar"></div>
     </header>
-      
-    <h2 style="padding-top: 50px; font-size:xx-large;">Try Our Daily Specials </h2>
-    <div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">
-      
-      <div class="box" >  
-        <div id="verticalflex" > <img src="./img/trial.jpg" width = 200, height="200" alt="McChicken">
-          <p style="text-align: center; font-size: 20px"> <b>Beef Royale</b> <br>
-            Leafy Bites makes a jam-packed burger so big, <br>you'll need both hands!
-          </p>
-        </div>
-      </div>
-
-
-      <div class="box">
-        <div id="verticalflex" > <img src="./img/pizzarice.jpg" width = 200, height="200" alt="McChicken">
-          <p style="text-align: center;font-size: 20px"> <b>Pizza Rice</b> <br>
-            All the flavours of a vegetarian supreme, <br>baked into crispy, chewy rice.
-          </p>
-        </div>
-      </div>
-
-      <div class="box">
-        <div id="verticalflex" > <img src="./img/roastchicken.jpg" width = 200, height="200" alt="McChicken">
-          <p style="text-align: center;font-size: 20px"> <b>Roast Tikka Chicken</b> <br>
-            A new spin on the classic roast chook. <br>Highly recommended by our regulars!
-          </p>
-        </div>
-      </div>
-      <br><br><br>
-
-    </div>
+        <?php
+        if (isset($categories)){
+          for ($catid = 1; $catid <= $num_categories; $catid++) {
+            $catrow = $categories->fetch_assoc();
+            $cat_name = $catrow['categoryname'];
+            echo '<h2 style="padding-top: 50px; font-size:xx-large;">'.$cat_name.'</h2>';
+            echo '<div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">';
+            if (isset($items)) {
+              for ($itemid = 1 ; $itemid <= $num_items; $itemid++) {
+                $itemrow = $items->fetch_assoc();
+                if ((int) $itemrow["categoryid"] == $catid) {
+                  $item_name = $itemrow["itemname"];
+                  $item_description = $itemrow["itemdescription"];
+                  echo '<div class="box" >  
+                          <div id="verticalflex" > <img src="./img/roastchicken.jpg" width = 200, height="200" alt="McChicken">
+                            <p style="text-align: center; font-size: 20px"> <b>'.$item_name.'</b> <br>
+                              '.$item_description.'
+                            </p>
+                          </div>
+                        </div>';
+                }
+              }
+              $items->data_seek(0);
+            }
+            echo '</div>';
+          }
+        }
+        ?>
         
   <footer>
     <section class="semicircle">
       <img src="./img/leafylogo.png"  alt="Leafy Bites Logo" >
       <h2 style="color: #FFFFFF; font-size:30px">Leafy Bites Proudly Presents</h2>
     </section>
-
     <br><br><br>
     <div class="flexcontainer" >
       <!-- First Box of Daily Specials -->
