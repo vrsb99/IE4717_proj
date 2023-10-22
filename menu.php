@@ -1,3 +1,19 @@
+<?php
+@ $db = new mysqli('localhost', 'root', '', 'leafybites');
+
+if (mysqli_connect_errno()) {
+    $script = '<script>alert("Error: Could not connect to database. Please try again later.")</script>';
+    exit;
+}
+
+$query = "SELECT * FROM category";
+$categories = $db->query($query);
+$query = "SELECT * FROM items";
+$items = $db->query($query);
+$query = "SELECT * FROM sizes";
+$sizes = $db->query($query);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,35 +42,13 @@
         <img class="logo" src="./img/leafylogo.png"  alt="Leafy Bites Logo" >
       </div>
       <h1 style="color:#115448">Leafy Bites</h1>
+      <h1 style="color:#115448">Menu</h1>
       <div id="navbar"></div>
     </header>
-  
-
-    <!-- Introduction Tab -->
-    <div class="flexcontainer">
       
-      <div class="box">
-        <img src="./img/introphoto.png"  alt="Introduction Photo">
-      </div>
-
-      <div class="box" >
-        <div id="verticalflex">
-          <h2 style="text-align: left;"> Introducing <b>Leafy Bites</b>: Your Ultimate Fast Food Heaven!</h2>
-          <p style="font-size: 20px;"><b>Leafy Bites</b> is here to make your fast food experience easier, faster, and more convenient than ever.</p>
-          <p style="font-size: 20px;">From mouthwatering <b>burgers</b> and <b>crispy fries</b> to <b>savory roast chicken</b>, delectable pizza, and so much more. 
-            Whether you're a cheeseburger enthusiast or a die-hard fan of cheesy, gooey nachos, we've got something to satiate every craving !</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Daily Specials -->
-
-  <h2 style="padding-top: 50px; font-size:xx-large;">Try Our Daily Specials </h2>
-
-  <div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">
-
+    <h2 style="padding-top: 50px; font-size:xx-large;">Try Our Daily Specials </h2>
+    <div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">
+      
       <div class="box" >  
         <div id="verticalflex" > <img src="./img/trial.jpg" width = 200, height="200" alt="McChicken">
           <p style="text-align: center; font-size: 20px"> <b>Beef Royale</b> <br>
@@ -63,7 +57,7 @@
         </div>
       </div>
 
-  
+
       <div class="box">
         <div id="verticalflex" > <img src="./img/pizzarice.jpg" width = 200, height="200" alt="McChicken">
           <p style="text-align: center;font-size: 20px"> <b>Pizza Rice</b> <br>
@@ -79,15 +73,14 @@
           </p>
         </div>
       </div>
-  
-    <br><br><br>
+      <br><br><br>
 
-  </div>
-  
+    </div>
+        
   <footer>
     <section class="semicircle">
       <img src="./img/leafylogo.png"  alt="Leafy Bites Logo" >
-      <h2 style="color: #FFFFFF; font-size:30px">Leafy Bites Proudly Present</h2>
+      <h2 style="color: #FFFFFF; font-size:30px">Leafy Bites Proudly Presents</h2>
     </section>
 
     <br><br><br>
@@ -125,5 +118,3 @@
 </body>
 
 </html>
-
-
