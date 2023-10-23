@@ -49,7 +49,7 @@
           header('location: ' . htmlspecialchars($_SERVER['PHP_SELF']) . '?' . SID);
           exit();
       }
-        echo '<p>Your shopping cart contains '.count($_SESSION['cart']).' items</p>';
+        echo '<p style="text-align: center;">Your shopping cart contains '.count($_SESSION['cart']).' items</p>';
 
         // Connect to database
         @ $db = new mysqli('localhost', 'root', '', 'leafybites');
@@ -83,7 +83,7 @@
             while ($catrow = $categories->fetch_assoc()) {
               $cat_id = $catrow['categoryid'];
               $cat_name = $catrow['categoryname'];
-              echo '<h2 style="padding-top: 50px; font-size:xx-large;" id="'.$cat_id.'">'.$cat_name.'</h2>';
+              echo '<h2 style="font-size:xx-large;margin-right:150px" id="'.$cat_id.'">'.$cat_name.'</h2>';
               echo '<div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">';
 
               // Get all items in the category
