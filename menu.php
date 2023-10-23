@@ -1,22 +1,3 @@
-<?php
-@ $db = new mysqli('localhost', 'root', '', 'leafybites');
-
-if (mysqli_connect_errno()) {
-    $script = '<script>alert("Error: Could not connect to database. Please try again later.")</script>';
-    exit;
-}
-
-$query = "SELECT * FROM category";
-$categories = $db->query($query);
-$num_categories = $categories->num_rows;
-$query = "SELECT * FROM items";
-$items = $db->query($query);
-$num_items = $items->num_rows;
-$query = "SELECT * FROM sizes";
-$sizes = $db->query($query);
-$num_sizes = $sizes->num_rows;
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,32 +30,92 @@ $num_sizes = $sizes->num_rows;
       <div id="navbar"></div>
     </header>
         <?php
-        if (isset($categories)){
-          for ($catid = 1; $catid <= $num_categories; $catid++) {
-            $catrow = $categories->fetch_assoc();
+        /*
+        Flow:
+        1. Connect to database
+        2. Get all categories
+        3. Iterate through each category
+        4. Get all items in the category
+        5. Iterate through each item
+        6. Get all sizes for the item
+        7. Iterate through each size
+        */
+        
+        // Connect to database
+        @ $db = new mysqli('localhost', 'root', '', 'leafybites');
+
+        if (mysqli_connect_errno()) {
+            $script = '<script>alert("Error: Could not connect to database. Please try again later.")</script>';
+            exit;
+        }
+        
+        // Get all categories
+        $query = "SELECT * FROM category";
+        $categories = $db->query($query);
+
+        if (isset($categories)) {
+          echo '<div class="leftcolumn">
+                <nav class="sidenav">
+                  <ul>';
+          while ($catrow = $categories->fetch_assoc()) {
+            $cat_id = $catrow['categoryid'];
             $cat_name = $catrow['categoryname'];
-            echo '<h2 style="padding-top: 50px; font-size:xx-large;">'.$cat_name.'</h2>';
-            echo '<div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">';
-            if (isset($items)) {
-              for ($itemid = 1 ; $itemid <= $num_items; $itemid++) {
-                $itemrow = $items->fetch_assoc();
-                if ((int) $itemrow["categoryid"] == $catid) {
-                  $item_name = $itemrow["itemname"];
-                  $item_description = $itemrow["itemdescription"];
-                  echo '<div class="box" >  
-                          <div id="verticalflex" > <img src="./img/roastchicken.jpg" width = 200, height="200" alt="McChicken">
-                            <p style="text-align: center; font-size: 20px"> <b>'.$item_name.'</b> <br>
-                              '.$item_description.'
-                            </p>
-                          </div>
-                        </div>';
+            echo '<li><a href="#'.$cat_id.'">'.$cat_name.'</a></li>';
+          }
+          echo '</ul>
+                </nav>
+                </div>';
+        }
+
+        $categories -> data_seek(0);
+        echo '<div class="rightcolumn">';
+          if (isset($categories)){
+            while ($catrow = $categories->fetch_assoc()) {
+              $cat_id = $catrow['categoryid'];
+              $cat_name = $catrow['categoryname'];
+              echo '<h2 style="padding-top: 50px; font-size:xx-large;" id="'.$cat_id.'">'.$cat_name.'</h2>';
+              echo '<div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">';
+
+              // Get all items in the category
+              $query = "SELECT * FROM items WHERE categoryid = ".$cat_id;
+              $items = $db->query($query);
+              $num_items = $items->num_rows;
+              
+              if (isset($items)) {
+                while ($itemrow = $items->fetch_assoc()) {
+                    $item_id = $itemrow["itemid"];
+                    $item_name = $itemrow["itemname"];
+                    $item_description = $itemrow["itemdescription"];
+
+                    // Get all sizes for the item
+                    $query = "SELECT * FROM sizes WHERE itemid = ".$item_id;
+                    $sizes = $db->query($query);
+
+                    echo '<div class="box" >  
+                    <div id="verticalflex" >
+                        <img src="./img/roastchicken.jpg" width=200 height=200 alt="McChicken">
+                        <p style="font-size: 20px">
+                            <b>'.$item_name.'</b> <br>
+                            '.wordwrap($item_description, 30, "<br>").'
+                        </p>
+                        <select>';
+                        if (isset($sizes)) {
+                            while ($sizerow = $sizes->fetch_assoc()) {
+                                $size_name = $sizerow["size"];
+                                $size_price = $sizerow["sizeprice"];
+                                echo '<option value='.$size_id.'>'.$size_name.' ($'.$size_price.')</option>';
+                            }
+                        }
+                  echo '</select>
+                      <button class="addButton">ADD</button>
+                    </div>
+                </div>';
                 }
               }
-              $items->data_seek(0);
+              echo '</div>';
             }
-            echo '</div>';
           }
-        }
+          echo '</div>';
         ?>
         
   <footer>
