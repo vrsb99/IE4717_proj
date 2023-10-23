@@ -8,8 +8,9 @@ body {
 
 .wrapper { 
     margin: auto;
-    min-width:850px;}
-
+    min-width:850px;
+    /* border-style: solid; */
+}
 
 .wrapper .logo{
     margin-top: -50px;
@@ -25,7 +26,8 @@ body {
     padding-bottom: 50px;}
 
 
-h1{
+h1{ 
+    color: #115448;
     margin-top: 0px;
     text-align: center;
     display: flex;
@@ -188,25 +190,30 @@ nav a {
     color: white;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    /* border-radius: 5px; */
     font-weight: bold;
     transition: 0.3s;
     text-decoration: none;
 }
 
 .addButton:hover {
-    background-color: #0e493d;
+    background-color: #de9f7e;
 }
 
-.leftcolumn { 
+.leftcol {
     float: left;
-    width: 150px;
+    width: 170px;
+    /* border-style: solid; */
+    text-align: left;
+    margin-left: -30px;
+    margin-top: 90px
 }
 
 .rightcolumn { 
-    margin-left: 150px;
+    margin-left: 180px;
 }
 
 .sidenav {
     position: fixed;
+    font-size: large;
 }
