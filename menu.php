@@ -40,7 +40,17 @@
         6. Get all sizes for the item
         7. Iterate through each size
         */
-        
+        session_start();
+        if (!isset($_SESSION['cart'])){
+          $_SESSION['cart'] = array();
+        }
+        if (isset($_GET['add'])) {
+          $_SESSION['cart'][] = $_GET['add'];
+          header('location: ' . $_SERVER['PHP_SELF']. '?' . SID);
+          exit();
+        }
+        echo '<p>Your shopping cart contains '.count($_SESSION['cart']).' items</p>';
+
         // Connect to database
         @ $db = new mysqli('localhost', 'root', '', 'leafybites');
 
@@ -101,13 +111,14 @@
                         <select>';
                         if (isset($sizes)) {
                             while ($sizerow = $sizes->fetch_assoc()) {
-                                $size_name = $sizerow["size"];
-                                $size_price = $sizerow["sizeprice"];
-                                echo '<option value='.$size_id.'>'.$size_name.' ($'.$size_price.')</option>';
+                              $size_id = $sizerow["sizeid"];
+                              $size_name = $sizerow["size"];
+                              $size_price = $sizerow["sizeprice"];
+                              echo '<option value='.$size_id.'>'.$size_name.' ($'.$size_price.')</option>';
                             }
                         }
                   echo '</select>
-                      <button class="addButton">ADD</button>
+                      <a class="addButton" href='.$_SERVER['PHP_SELF'].'?add='.$size_id.'>Add to Cart</a>
                     </div>
                 </div>';
                 }
