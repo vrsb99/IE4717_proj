@@ -35,14 +35,14 @@ function emailValidate(event){
 function priceForQuantity(inputElement) {
     const row_Element = inputElement.closest('tr');
     const unit_price = parseFloat(row_Element.querySelector('[name="unit_price"]').textContent.replace('$', ''));
-    const quantityElement = row_Element.querySelector('[name="quantity*"');
+    const quantityElement = inputElement;
     const quantity = parseInt(quantityElement.value);
     const priceElement = row_Element.querySelector('[name="price"]');
     const current_price = parseFloat(priceElement.textContent.replace('$', ''));
 
     const totalElement = document.querySelector('[name="total_price"]');
     const current_total = parseFloat(totalElement.textContent.replace('$', ''));
-
+    console.log(current_total)
     if (quantity > 0) {
         new_price = unit_price * quantity;
     } else {

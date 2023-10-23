@@ -8,7 +8,7 @@
   
   <script>
       document.addEventListener("DOMContentLoaded", function() {
-        fetch('components.html')
+        fetch('navbar.html')
         .then(response => response.text())
         .then(data => {
           document.getElementById('navbar').innerHTML = data;
@@ -70,7 +70,7 @@
           while ($catrow = $categories->fetch_assoc()) {
             $cat_id = $catrow['categoryid'];
             $cat_name = $catrow['categoryname'];
-            echo '<li><a href="#'.$cat_id.'">'.$cat_name.'</a></li>';
+            echo '<li><a href="#'.$cat_id.'">'.$cat_name.'</a></li><br><br><br>';
           }
           echo '</ul>
                 </nav>
