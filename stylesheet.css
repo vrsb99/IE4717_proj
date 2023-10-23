@@ -55,6 +55,14 @@ p {
     width: 100%;
     gap: 30px;}
 
+.flexcolumncontainer {
+    padding-bottom: 100px;
+    background-color: #FFFFFF;
+    justify-content: space-between;
+    display: block;
+    max-width: 50%;
+    gap: 30px;}
+    
 #verticalflex{
     flex-direction: vertical;}                
 

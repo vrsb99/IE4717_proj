@@ -44,11 +44,11 @@
         if (!isset($_SESSION['cart'])){
           $_SESSION['cart'] = array();
         }
-        if (isset($_GET['add'])) {
-          $_SESSION['cart'][] = $_GET['add'];
-          header('location: ' . $_SERVER['PHP_SELF']. '?' . SID);
+        if (isset($_POST['size_id'])) {
+          array_push($_SESSION['cart'], $_POST['size_id']);
+          header('location: ' . htmlspecialchars($_SERVER['PHP_SELF']) . '?' . SID);
           exit();
-        }
+      }
         echo '<p>Your shopping cart contains '.count($_SESSION['cart']).' items</p>';
 
         // Connect to database
@@ -101,26 +101,28 @@
                     $query = "SELECT * FROM sizes WHERE itemid = ".$item_id;
                     $sizes = $db->query($query);
 
-                    echo '<div class="box" >  
-                    <div id="verticalflex" >
+                    echo '<div class="box">  
+                    <div id="verticalflex">
                         <img src="./img/roastchicken.jpg" width=200 height=200 alt="McChicken">
                         <p style="font-size: 20px">
                             <b>'.$item_name.'</b> <br>
                             '.wordwrap($item_description, 30, "<br>").'
                         </p>
-                        <select>';
+                        <form action="'.htmlspecialchars($_SERVER['PHP_SELF']).'" method="post">';
+                        echo '<select name="size_id">';
                         if (isset($sizes)) {
                             while ($sizerow = $sizes->fetch_assoc()) {
-                              $size_id = $sizerow["sizeid"];
-                              $size_name = $sizerow["size"];
-                              $size_price = $sizerow["sizeprice"];
-                              echo '<option value='.$size_id.'>'.$size_name.' ($'.$size_price.')</option>';
+                              $size_id = htmlspecialchars($sizerow["sizeid"]);
+                              $size_name = htmlspecialchars($sizerow["size"]);
+                              $size_price = htmlspecialchars($sizerow["sizeprice"]);
+                              echo '<option value="'.$size_id.'">'.$size_name.' ($'.$size_price.')</option>';
                             }
                         }
-                  echo '</select>
-                      <a class="addButton" href='.$_SERVER['PHP_SELF'].'?add='.$size_id.'>Add to Cart</a>
-                    </div>
-                </div>';
+                        echo '</select>
+                              <button type="submit" class="addButton" >Add to Cart</button>
+                        </form>';
+              echo '  </div>
+                  </div>';
                 }
               }
               echo '</div>';
