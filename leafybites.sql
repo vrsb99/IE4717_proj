@@ -48,5 +48,6 @@ create table order_items(
 create table users(
     userid int unsigned not null auto_increment primary key,
     username char(50) not null,
-    email char(50) not null
+    email char(50) not null,
+    password varchar(40)
 );
