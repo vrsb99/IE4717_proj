@@ -203,6 +203,7 @@ nav a {
     font-weight: bold;
     transition: 0.3s;
     text-decoration: none;
+    margin-left: 20px;
 }
 
 .addButton:hover {
@@ -221,9 +222,33 @@ nav a {
 .rightcolumn { 
     margin-left: 180px;
 }
+
 .sidenav {
     position: fixed;
     max-height: calc(100vh - 500px); /* Adjust 50px to be the top and bottom margin you want */
     overflow-y: auto;
     font-size: large;
+    /* border-style: solid; */
+    
+}
+
+.sidenav a{
+    width: 50px;
+    margin: 30px;
+    color: #3b625a;
+    border-style: solid;
+    border: #115448;
+    text-decoration: none;
+    padding-right: 10px;} 
+
+
+.sidenav :hover{
+    color:#de9f7e
+}
+
+.styling {
+text-decoration: none;
+padding: 0.5rem;
+border: 10px solid #333333;
+
 }

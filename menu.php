@@ -4,18 +4,12 @@
   <title>Leafy Bites</title>
   <meta charset="utf-8">
   <link rel="stylesheet" href="stylesheet.css">
-  
-  
+  <script src="loadPage.js"></script>
   <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        fetch('navbar.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('navbar').innerHTML = data;
-        });
-      });
+    function notify(){
+      alert("Item added into cart.")
+    }
   </script>
-
 </head>
 
 <body>
@@ -29,6 +23,7 @@
       <h1 style="color:#115448">Menu</h1>
       <div id="navbar"></div>
     </header>
+  </div>
         <?php
         /*
         Flow:
@@ -109,17 +104,22 @@
                             '.wordwrap($item_description, 30, "<br>").'
                         </p>
                         <form action="'.htmlspecialchars($_SERVER['PHP_SELF']).'" method="post">';
+
                         echo '<select name="size_id">';
+
                         if (isset($sizes)) {
                             while ($sizerow = $sizes->fetch_assoc()) {
                               $size_id = htmlspecialchars($sizerow["sizeid"]);
                               $size_name = htmlspecialchars($sizerow["size"]);
                               $size_price = htmlspecialchars($sizerow["sizeprice"]);
-                              echo '<option value="'.$size_id.'">'.$size_name.' ($'.$size_price.')</option>';
+                              echo '<option class="option" value="'.$size_id.'">'.$size_name.' ($'.$size_price.')</option>';
+                              echo ' &nbsp';
                             }
                         }
+                       
                         echo '</select>
-                              <button type="submit" class="addButton" >Add to Cart</button>
+
+                              <button type="submit" class="addButton" onclick="notify()"> Add to Cart</button>
                         </form>';
               echo '  </div>
                   </div>';
@@ -132,41 +132,7 @@
         ?>
         
   <footer>
-    <section class="semicircle">
-      <img src="./img/leafylogo.png"  alt="Leafy Bites Logo" >
-      <h2 style="color: #FFFFFF; font-size:30px">Leafy Bites Proudly Presents</h2>
-    </section>
-    <br><br><br>
-    <div class="flexcontainer" >
-      <!-- First Box of Daily Specials -->
-        <div class="box">  
-          <div id="verticalflex" > <h3 style="text-align: center;">Services</h3><br><br>
-            <p style="text-align: center;"> We offer delivery too ! <br> Singapore Islandwide <br><br>
-              Mon-Fri: 10am - 8pm <br>
-              Sat-Sun: 11am - 9pm
-            </p>
-          </div>
-        </div>
-
-      <!-- Second Box of Daily Specials -->
-        <div class="box">
-          <div id="verticalflex" > <h3 style="text-align: center;">Subscribe to Leafy Bites now to get our special offers !</h3>
-            <input style="border: none; border-bottom:solid 2px #115448; background-color: #e3f0e7; text-align: center;" type=email placeholder="Email address">
-          </div>
-        </div>
-
-        <div class="box">
-          <div id="verticalflex" > <h3 style="text-align: center;">Contact Us </h3>
-            <p style="text-align: center;"> HP: +65 8188-6905 (Vilan)<br> HP: +65 8683-4492 (Vignesh)<br><br> Email: leafybitescorp@gmail.com<br><br>
-              50 Nanyang Walk, 639929 Singapore
-            </p>
-          </div>
-        </div>
-    </div>
-
-    <br>Copyright &copy; Leafy Bites 2023 <br> All rights reserved.<br><br>
-    <button class="button" onclick="location.href='login.html';">Admin?</button>
-
+    <div id="footer"></div>
   </footer>
 </body>
 
