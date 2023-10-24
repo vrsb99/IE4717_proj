@@ -44,16 +44,11 @@
           header('location: ' . htmlspecialchars($_SERVER['PHP_SELF']) . '?' . SID);
           exit();
       }
+      
         echo '<p style="text-align: center;">Your shopping cart contains '.count($_SESSION['cart']).' items</p>';
 
         // Connect to database
-        @ $db = new mysqli('localhost', 'root', '', 'leafybites');
-
-        if (mysqli_connect_errno()) {
-            $script = '<script>alert("Error: Could not connect to database. Please try again later.")</script>';
-            exit;
-        }
-        
+        include "dbconnect.php";
         // Get all categories
         $query = "SELECT * FROM category";
         $categories = $db->query($query);
