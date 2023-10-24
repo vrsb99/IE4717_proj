@@ -96,7 +96,7 @@
         </tr>
         </tfoot>
       </table>
-      <p><a href="menu.php">Continue Shopping</a> or
+      <p><input type="submit" name="save" id="save" value="Save & Continue Shopping"> or
       <a href="'.$_SERVER['PHP_SELF'].'?empty=1">Empty Cart</a></p>
       <br>
       <h2>Customer Information</h2>
@@ -106,9 +106,9 @@
       <input class="input-field" type="text" id="name" name="name" required placeholder="Enter your name here"><br><br>
 
       <label for="email">*E-mail:</label>
-      <input type="email" id="email" name="email"  required placeholder="Enter your Email-ID here"><br><br>      
+      <input type="email" id="email" name="email" required placeholder="Enter your Email-ID here"><br><br>      
       </div>
-      <input type="submit" name="submit" value="Place Order" style="font-size: large;" class="button">
+      <input type="submit" name="submit" id="submit" value="Place Order" style="font-size: large;" class="button">
 
       </form>
       <script type="text/javascript" src="checkout.js"></script>

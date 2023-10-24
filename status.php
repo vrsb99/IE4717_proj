@@ -29,6 +29,24 @@ if (isset($_POST["submit"])) {
     unset($_SESSION["cart"]);
     header("location: menu.php");
     exit;
+} else if (isset($_POST['save'])) {
+    $_SESSION['cart'] = array();
+    
+    // Loop through each of the received items.
+    foreach ($_POST as $key => $value) {
+        if (strpos($key, 'quantity_') === 0) { // strpos() means string position
+            $sizeid = str_replace('quantity_', '', $key);
+            $quantity = (int) $value;
+            
+            // Add each item back into the cart, repeated by its quantity.
+            for ($i = 0; $i < $quantity; $i++) {
+                $_SESSION['cart'][] = $sizeid;
+            }
+        }
+    }
+    
+    header('location: menu.php');
+    exit();
 }
 
 function insertOrderItem($db, $orderid, $size_id, $quantity) {
