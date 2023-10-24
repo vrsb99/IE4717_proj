@@ -96,7 +96,7 @@ h2 {
     border: #115448;}
 
 .button {
-    width:100px;
+    width:120px;
     height:30px;
     background-color: #115448;
     border: none;
@@ -232,23 +232,63 @@ nav a {
     
 }
 
-.sidenav a{
-    width: 50px;
-    margin: 30px;
-    color: #3b625a;
-    border-style: solid;
-    border: #115448;
-    text-decoration: none;
-    padding-right: 10px;} 
-
-
-.sidenav :hover{
-    color:#de9f7e
-}
 
 .styling {
 text-decoration: none;
 padding: 0.5rem;
 border: 10px solid #333333;
+
+}
+
+/* Cart */
+table{
+    border:1px #115448 solid;
+    width:800px;
+}
+
+
+th,td {
+    padding:20px;
+    text-align: center;
+    color:#3b625a
+}
+
+label {
+
+    text-align: right;
+    padding-right:30px;
+    margin-top: 10px;
+    width:100px;
+    float:left;
+    color: #42231b;
+}
+
+.customer_info input, textarea {
+    border: none; 
+    border-bottom:solid 2px #115448; 
+    background-color: #e3f0e7; 
+    margin-top:10px;
+    width:600px;
+
+}
+
+.customer_info{
+    background-color: #e3f0e7;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+p a{
+    color: #3b625a;
+}
+
+p a:hover{
+    color:#de9f7e
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+
+   opacity: 1;
 
 }

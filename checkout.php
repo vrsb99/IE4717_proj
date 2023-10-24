@@ -4,25 +4,14 @@
   <title>Leafy Bites</title>
   <meta charset="utf-8">
   <link rel="stylesheet" href="stylesheet.css">
-  
-
-  <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        fetch('navbar.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('navbar').innerHTML = data;
-        });
-      });
-  </script>
-  
+  <script src="loadPage.js"></script>  
   <div class="wrapper">
     <header>
       <div class="center">
         <img class="logo" src="./img/leafylogo.png"  alt="Leafy Bites Logo" >
       </div>
       <h1 style="color:#115448">Leafy Bites</h1>
-      <h1 style="color:#115448">Checkout</h1>
+      <h1 style="color:#115448">Cart</h1>
       <div id="navbar"></div>
     </header>
   </div>
@@ -47,12 +36,8 @@
     
     // How to check if _SESSION['cart'] is empty?
     if (!empty($_SESSION['cart'])) {
-      @ $db = new mysqli('localhost', 'root', '', 'leafybites');
-
-      if (mysqli_connect_errno()) {
-          $script = '<script>alert("Error: Could not connect to database. Please try again later.")</script>';
-          exit;
-      }
+      
+      include "dbconnect.php";
 
       if (isset($_GET['remove'])) {
         $remove = $_GET['remove'];
@@ -68,15 +53,16 @@
       $result = $db->query($query);
 
       echo '
-      <div class="flexcolumncontainer" >
+      <div class="flexcontainer" >
       <form action="status.php" method="post">
-      <table border="1">
+      <table border="0">
+      <caption style="font-size:xx-large;margin-bottom:20px;color:#115448"><b>Order Details</b></caption>
       <thead>
       <tr>
+        <th>Quantity</th>
         <th>Item</th>
         <th>Size</th>
         <th>Unit Price</th>
-        <th>Quantity</th>
         <th>Price</th>
       </tr>
       </thead>
@@ -89,10 +75,10 @@
           $unit_price = $row['sizeprice'];
           $price = $unit_price * $quantity;
           echo "<tr>";
+          echo "<td><input style='width:50px;border:none;text-align:center' type='number' min='0' name='quantity_".$sizeid."' value=".$quantity." onchange='priceForQuantity(this)'></td>";
           echo "<td>" . $row['itemname'] . "<br><a href='".$_SERVER["PHP_SELF"]."?remove=".$sizeid."'>Remove</a></td>";
           echo "<td>". $row['size'] . "</td>";
           echo "<td name='unit_price'>$" . $unit_price . "</td>";
-          echo "<td><input type='number' min='0' name='quantity_".$sizeid."' value=".$quantity." onchange='priceForQuantity(this)'></td>";
           echo "<td name='price'>$" . number_format($price, 2) . "</td>";
           echo "</tr>";
           $total += $price;
@@ -101,67 +87,41 @@
       echo '</tbody>
         <tfoot>
         <tr>
-          <th align="right" colspan="3">Total:</th><br>
-          <th align="right" name="total_price" >$'.number_format($total, 2).'
-          </th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="text-align:center;margin-right:10px"><b>Total:</b></td><br>
+          <th align="right" name="total_price" ><b>$'.number_format($total, 2).'
+          </b></th>
         </tr>
         </tfoot>
       </table>
       <p><a href="menu.php">Continue Shopping</a> or
       <a href="'.$_SERVER['PHP_SELF'].'?empty=1">Empty Cart</a></p>
+      <br>
+      <h2>Customer Information</h2>
 
+      <div class="customer_info">
       <label class="labels" for="name">*Name:</label>
       <input class="input-field" type="text" id="name" name="name" required placeholder="Enter your name here"><br><br>
 
       <label for="email">*E-mail:</label>
-      <input type="email" id="email" name="email"  required placeholder="Enter your Email-ID here"><br><br>
-      
-      <input type="submit" name="submit" value="Place Order" style="font-size: large;">
+      <input type="email" id="email" name="email"  required placeholder="Enter your Email-ID here"><br><br>      
+      </div>
+      <input type="submit" name="submit" value="Place Order" style="font-size: large;" class="button">
+
       </form>
       <script type="text/javascript" src="checkout.js"></script>
       </div>';
-    } else {
+    } 
+    
+    else {
       header('location: menu.php');
       exit();
     }
     ?>
   <footer>
-    <section class="semicircle">
-      <img src="./img/leafylogo.png"  alt="Leafy Bites Logo" >
-      <h2 style="color: #FFFFFF; font-size:30px">Leafy Bites Proudly Present</h2>
-    </section>
-
-    <br><br><br>
-    <div class="flexcontainer" >
-      <!-- First Box of Daily Specials -->
-        <div class="box">  
-          <div id="verticalflex" > <h3 style="text-align: center;">Services</h3><br><br>
-            <p style="text-align: center;"> We offer delivery too ! <br> Singapore Islandwide <br><br>
-              Mon-Fri: 10am - 8pm <br>
-              Sat-Sun: 11am - 9pm
-            </p>
-          </div>
-        </div>
-
-      <!-- Second Box of Daily Specials -->
-        <div class="box">
-          <div id="verticalflex" > <h3 style="text-align: center;">Subscribe to Leafy Bites now to get our special offers !</h3>
-            <input type=email placeholder="Email address">
-          </div>
-        </div>
-
-        <div class="box">
-          <div id="verticalflex" > <h3 style="text-align: center;">Contact Us </h3>
-            <p style="text-align: center;"> HP: +65 8188-6905 (Vilan)<br> HP: +65 8683-4492 (Vignesh)<br><br> Email: leafybitescorp@gmail.com<br><br>
-              50 Nanyang Walk, 639929 Singapore
-            </p>
-          </div>
-        </div>
-    </div>
-
-    <br>Copyright &copy; Leafy Bites 2023 <br> All rights reserved.<br><br>
-    <button class="button" onclick="location.href='login.html';">Admin?</button>
-    
+    <div id="footer"></div>
   </footer>
 </body>
 
