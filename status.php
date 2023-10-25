@@ -17,24 +17,35 @@ if (isset($_POST["submit"])) {
         }
     }
 
+    // Check if quantity is valid BEFORE inserting into database
+    foreach ($size_and_quantity as $size_id => $quantity) {
+        checkQuantity($db, $size_id, $quantity);
+    }
+
     $email = $_POST["email"];
+    date_default_timezone_set("Asia/Singapore");
     $today = date("Y-m-d H:i:s");
-    $query = "INSERT INTO orders VALUES (NULL, '".$email."', '".$today."')";
+    $query = "INSERT INTO customers VALUES (NULL, '".$email."')";
+    $result = $db->query($query);
+    $customerid = $db->insert_id;
+
+    $query = "INSERT INTO orders VALUES (NULL, ".$customerid.", '".$today."')";
     $result = $db->query($query);
     $orderid = $db->insert_id;
 
     foreach ($size_and_quantity as $size_id => $quantity) {
         insertOrderItem($db, $orderid, $size_id, $quantity);
+        removeOrderedItem($db, $size_id, $quantity);
     }
     unset($_SESSION["cart"]);
     header("location: menu.php");
     exit;
+
 } else if (isset($_POST['save'])) {
     $_SESSION['cart'] = array();
     
-    // Loop through each of the received items.
     foreach ($_POST as $key => $value) {
-        if (strpos($key, 'quantity_') === 0) { // strpos() means string position
+        if (strpos($key, 'queditaantity_') === 0) { // strpos() means string position
             $sizeid = str_replace('quantity_', '', $key);
             $quantity = (int) $value;
             
@@ -49,19 +60,34 @@ if (isset($_POST["submit"])) {
     exit();
 }
 
+function checkQuantity($db, $size_id, $quantity) {
+    $query = "SELECT quantity FROM sizes WHERE sizeid = ".$size_id;
+    $result = $db->query($query);
+    $row = $result->fetch_assoc();
+    $quantity_in_stock = $row["quantity"];
+    if (!is_null($quantity_in_stock) && $quantity > $quantity_in_stock) {
+        header("location: checkout.php?error=".$size_id);
+        exit;
+    }
+}
+
 function insertOrderItem($db, $orderid, $size_id, $quantity) {
-    $query = "SELECT categoryid, itemid, sizeprice FROM sizes WHERE sizeid = ".$size_id;
+    $query = "SELECT itemid, price FROM sizes WHERE sizeid = ".$size_id;
     $result = $db->query($query);
     $row = $result->fetch_assoc();
 
     $orderid = (int) $orderid;
-    $categoryid = (int) $row["categoryid"];
     $item_id = (int) $row["itemid"];
-    $price = (float) $row["sizeprice"];
+    $price = (float) $row["price"];
     $size_id = (int) $size_id;
     $quantity = (int) $quantity;
 
-    $query = "INSERT INTO order_items VALUES (".$orderid.", ".$categoryid.", ".$item_id.", ".$size_id.", ".$price.", ".$quantity.")";
+    $query = "INSERT INTO order_items VALUES (".$orderid.", ".$item_id.", ".$size_id.", ".$price.", ".$quantity.")";
+    $result = $db->query($query);
+}
+
+function removeOrderedItem($db, $size_id, $quantity) {
+    $query = "UPDATE sizes SET quantity = quantity - ".$quantity." WHERE sizeid = ".$size_id." AND quantity IS NOT NULL AND ".$quantity." <= quantity";
     $result = $db->query($query);
 }
 ?>

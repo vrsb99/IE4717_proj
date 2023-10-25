@@ -59,7 +59,7 @@
                   <ul>';
           while ($catrow = $categories->fetch_assoc()) {
             $cat_id = $catrow['categoryid'];
-            $cat_name = $catrow['categoryname'];
+            $cat_name = $catrow['name'];
             echo '<li><a href="#'.$cat_id.'">'.$cat_name.'</a></li><br><br><br>';
           }
           echo '</ul>
@@ -72,7 +72,7 @@
           if (isset($categories)){
             while ($catrow = $categories->fetch_assoc()) {
               $cat_id = $catrow['categoryid'];
-              $cat_name = $catrow['categoryname'];
+              $cat_name = $catrow['name'];
               echo '<h2 style="font-size:xx-large;margin-right:150px" id="'.$cat_id.'">'.$cat_name.'</h2>';
               echo '<div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">';
 
@@ -84,8 +84,8 @@
               if (isset($items)) {
                 while ($itemrow = $items->fetch_assoc()) {
                     $item_id = $itemrow["itemid"];
-                    $item_name = $itemrow["itemname"];
-                    $item_description = $itemrow["itemdescription"];
+                    $item_name = $itemrow["name"];
+                    $item_description = $itemrow["description"];
 
                     // Get all sizes for the item
                     $query = "SELECT * FROM sizes WHERE itemid = ".$item_id;
@@ -104,13 +104,16 @@
 
                         if (isset($sizes)) {
                             while ($sizerow = $sizes->fetch_assoc()) {
+                              $size_quantity = htmlspecialchars($sizerow["quantity"]);
                               $size_id = htmlspecialchars($sizerow["sizeid"]);
-                              $size_name = htmlspecialchars($sizerow["size"]);
-                              $size_price = htmlspecialchars($sizerow["sizeprice"]);
-                              echo '<option class="option" value="'.$size_id.'">'.$size_name.' ($'.$size_price.')</option>';
-                              echo ' &nbsp';
+                              $size_name = htmlspecialchars($sizerow["name"]);
+                              $size_price = htmlspecialchars($sizerow["price"]);
+                              if (is_null($size_quantity) || $size_quantity != 0) {
+                                echo '<option class="option" value="'.$size_id.'">'.$size_name.' ($'.$size_price.')</option>';
+                                echo ' &nbsp';
                             }
                         }
+                    }
                        
                         echo '</select>
 

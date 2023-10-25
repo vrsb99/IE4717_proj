@@ -49,8 +49,24 @@
       $cartCounts = array_count_values($_SESSION['cart']); // Counts occurrences of each item 
       $uniqueCart = array_keys($cartCounts); // Gets the unique items
       
-      $query = "SELECT items.itemname, sizes.sizeid, sizes.size, sizes.sizeprice FROM items, sizes WHERE items.itemid = sizes.itemid AND sizes.sizeid IN (".implode(',', $uniqueCart).") ORDER BY sizes.sizeid";
+      $query = "SELECT items.name as item_name, sizes.sizeid, sizes.name as size_name, sizes.price FROM items, sizes WHERE items.itemid = sizes.itemid AND sizes.sizeid IN (".implode(',', $uniqueCart).") ORDER BY sizes.sizeid";
       $result = $db->query($query);
+
+      if (isset($_GET['error'])) {
+        $error = $_GET['error'];
+        while ($row = $result->fetch_assoc()) {
+          if ($row['sizeid'] == $error) {
+            $not_enough = $row['item_name']." (".$row['size_name'].")";
+            break;
+          }
+        }
+        echo "<script>alert('Error: Not enough quantity in stock for item ".$not_enough."')</script>";
+        $result->data_seek(0);
+      }
+
+      if (isset($script)) {
+        echo $script;
+      }
 
       echo '
       <div class="flexcontainer" >
@@ -72,12 +88,12 @@
       while($row = $result->fetch_assoc()) {
           $sizeid = $row['sizeid'];
           $quantity = $cartCounts[$sizeid];
-          $unit_price = $row['sizeprice'];
+          $unit_price = $row['price'];
           $price = $unit_price * $quantity;
           echo "<tr>";
           echo "<td><input style='width:50px;border:none;text-align:center' type='number' min='0' name='quantity_".$sizeid."' value=".$quantity." onchange='priceForQuantity(this)'></td>";
-          echo "<td>" . $row['itemname'] . "<br><a href='".$_SERVER["PHP_SELF"]."?remove=".$sizeid."'>Remove</a></td>";
-          echo "<td>". $row['size'] . "</td>";
+          echo "<td>" . $row['item_name'] . "<br><a href='".$_SERVER["PHP_SELF"]."?remove=".$sizeid."'>Remove</a></td>";
+          echo "<td>". $row['size_name'] . "</td>";
           echo "<td name='unit_price'>$" . $unit_price . "</td>";
           echo "<td name='price'>$" . number_format($price, 2) . "</td>";
           echo "</tr>";

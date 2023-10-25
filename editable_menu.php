@@ -35,19 +35,6 @@
         6. Get all sizes for the item
         7. Iterate through each size
         */
-        session_start();
-        if (!isset($_SESSION['cart'])){
-          $_SESSION['cart'] = array();
-        }
-        if (isset($_POST['size_id'])) {
-          array_push($_SESSION['cart'], $_POST['size_id']);
-          header('location: ' . htmlspecialchars($_SERVER['PHP_SELF']) . '?' . SID);
-          exit();
-        }
-
-      
-        echo '<p style="text-align: center;">Your shopping cart contains '.count($_SESSION['cart']).' items</p>';
-
         // Connect to database
         include "dbconnect.php";
 
@@ -55,7 +42,7 @@
         if (isset($_POST['cat_name'])) {
           $cat_name = $_POST['cat_name'];
           $query = "INSERT INTO category VALUES (NULL, ".$cat_name.")";
-          $formatted = $db->prepare("INSERT INTO category (categoryname) VALUES (?)");
+          $formatted = $db->prepare("INSERT INTO category (name) VALUES (?)");
           $formatted->bind_param("s", $cat_name);
           $formatted->execute();
           $formatted->close();
@@ -79,7 +66,7 @@
                   <ul>';
           while ($catrow = $categories->fetch_assoc()) {
             $cat_id = $catrow['categoryid'];
-            $cat_name = $catrow['categoryname'];
+            $cat_name = $catrow['name'];
             echo '<li>
             <a href="#'.$cat_id.'">'.$cat_name.'</a>
             <form action="'.$_SERVER['PHP_SELF'].'" method="POST" style="display:inline;"> 
@@ -104,7 +91,7 @@
           if (isset($categories)){
             while ($catrow = $categories->fetch_assoc()) {
               $cat_id = $catrow['categoryid'];
-              $cat_name = $catrow['categoryname'];
+              $cat_name = $catrow['name'];
               echo '<h2 style="font-size:xx-large;margin-right:150px" id="'.$cat_id.'">'.$cat_name.'</h2>';
               echo '<div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">';
 
@@ -116,8 +103,8 @@
               if (isset($items)) {
                 while ($itemrow = $items->fetch_assoc()) {
                     $item_id = $itemrow["itemid"];
-                    $item_name = $itemrow["itemname"];
-                    $item_description = $itemrow["itemdescription"];
+                    $item_name = $itemrow["name"];
+                    $item_description = $itemrow["description"];
 
                     // Get all sizes for the item
                     $query = "SELECT * FROM sizes WHERE itemid = ".$item_id;
@@ -130,23 +117,18 @@
                             <b>'.$item_name.'</b> <br>
                             '.wordwrap($item_description, 30, "<br>").'
                         </p>
-                        <form action="'.htmlspecialchars($_SERVER['PHP_SELF']).'" method="post">';
-
-                        echo '<select name="size_id">';
-
+                        <form action="editable_items.php" method="post">';
+                        echo '<input type="hidden" name="item_id" value="'.$item_id.'">';
+    
                         if (isset($sizes)) {
                             while ($sizerow = $sizes->fetch_assoc()) {
-                              $size_id = htmlspecialchars($sizerow["sizeid"]);
-                              $size_name = htmlspecialchars($sizerow["size"]);
-                              $size_price = htmlspecialchars($sizerow["sizeprice"]);
-                              echo '<option class="option" value="'.$size_id.'">'.$size_name.' ($'.$size_price.')</option>';
-                              echo ' &nbsp';
+                              $size_name = htmlspecialchars($sizerow["name"]);
+                              $size_price = htmlspecialchars($sizerow["price"]);
+                              echo '<p style="font-size: 16px">'.$size_name.' ($'.$size_price.')</p>';
                             }
                         }
-                       
-                        echo '</select>
 
-                              <button type="submit" class="addButton" onclick="notify()"> Add to Cart</button>
+                echo    '<button type="submit" class="editButton">Edit Item</button>
                         </form>';
               echo '  </div>
                   </div>';

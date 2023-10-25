@@ -1,53 +1,58 @@
-create table category(
-    categoryid int unsigned not null auto_increment primary key,
-    categoryname char(50) not null
+CREATE TABLE category(
+    categoryid INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
 );
 
-
-create table items(
-    itemid int unsigned not null auto_increment,
-    categoryid int unsigned not null,
-    itemname char(50) not null,
-    itemdescription text not null,
-    itemimage char(50) not null,
-    -- itemprice float(4,2) not null,
-    primary key (itemid, categoryid)
+CREATE TABLE items(
+    itemid INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    categoryid INT UNSIGNED NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    description TEXT NOT NULL,
+    image VARCHAR(50) NOT NULL,
+    FOREIGN KEY (categoryid) REFERENCES category(categoryid)
 );
 
-create table sizes(
-    sizeid int unsigned not null auto_increment,
-    itemid int unsigned not null,
-    categoryid int unsigned not null,
-    size char(10) not null,
-    sizeprice float(4,2) not null,
-    primary key (sizeid, itemid, categoryid)
+CREATE TABLE sizes(
+    sizeid INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    itemid INT UNSIGNED NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL, -- 10 digits, 2 decimal places
+    quantity INT UNSIGNED,
+    FOREIGN KEY (itemid) REFERENCES items(itemid)
 );
 
-create table customers(
-    customerid int unsigned not null auto_increment primary key,
-    email char(50) not null
+CREATE TABLE customers(
+    customerid INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(50) NOT NULL
 );
 
-create table orders(
-    orderid int unsigned not null auto_increment,
-    customerid int unsigned not null,
-    orderdate datetime not null,
-    primary key (orderid, customerid)
+CREATE TABLE orders(
+    orderid INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    customerid INT UNSIGNED NOT NULL,
+    orderdate DATETIME NOT NULL,
+    FOREIGN KEY (customerid) REFERENCES customers(customerid)
 );
 
-create table order_items(
-    orderid int unsigned not null,
-    categoryid int unsigned not null,
-    itemid int unsigned not null,
-    sizeid int unsigned not null,
-    price float(4,2) not null,
-    quantity int unsigned not null,
-    primary key (orderid, categoryid, itemid, sizeid)
+CREATE TABLE order_items(
+    orderid INT UNSIGNED NOT NULL,
+    itemid INT UNSIGNED NOT NULL,
+    sizeid INT UNSIGNED NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    quantity INT UNSIGNED NOT NULL,
+    PRIMARY KEY (orderid, itemid, sizeid),
+    FOREIGN KEY (orderid) REFERENCES orders(orderid),
+    FOREIGN KEY (itemid) REFERENCES items(itemid),
+    FOREIGN KEY (sizeid) REFERENCES sizes(sizeid)
 );
 
-create table users(
-    userid int unsigned not null auto_increment primary key,
-    username char(50) not null,
-    email char(50) not null,
-    password varchar(40)
+CREATE TABLE users(
+    userid INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    password VARCHAR(40)
+);
+
+CREATE TABLE admin(
+    adminid INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    password VARCHAR(40) NOT NULL
 );
