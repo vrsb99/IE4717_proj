@@ -37,7 +37,7 @@
 
       echo '
       <div class="flexcontainer" >
-      <form action="status.php" method="post">
+      <form action='.$_SERVER['PHP_SELF'].' method="post">
       <label for="item_name" style="font-size: large;">Item Name</label><br>
       <input type="text" name="item_name" value="'.$item_name.'" ><br><br>
       <label for="item_description" style="font-size: large;">Description</label><br>
@@ -59,15 +59,48 @@
           $unit_price = $row['price'];
           $quantity = $row['quantity'];
           echo "<tr>";
-          echo "<td><input style='width:50px;border:none;text-align:center' type='text' name='size_name_".$sizeid."' value=".$size_name."></td>";
-          echo "<td><input style='width:50px;border:none;text-align:center' type='number' min='0' name='price_".$sizeid."' value=".$unit_price."></td>";
-          echo "<td><input style='width:50px;border:none;text-align:center' type='number' name='quantity_".$sizeid."' value=" . (is_null($quantity) ? "" : $quantity) . "></td>";
+          echo "<td><input style='width:50px;text-align:center' type='text' name='size_name_".$sizeid."' value=".$size_name."></td>";
+          echo "<td><input style='width:50px;text-align:center' type='number' min='0' name='price_".$sizeid."' value=".$unit_price."></td>";
+          echo "<td><input style='width:50px;text-align:center' type='number' name='quantity_".$sizeid."' value=" . (is_null($quantity) ? "" : $quantity) . "></td>";
           // Shows empty value if quantity is null else shows quantity
           echo "</tr>";
       }      
 
       echo '</tbody>
       </table>
+      <input type="button" name="Add" value="Add Size" onclick="" style="font-size: large;" class="button">
+      <input type="submit" name="submit" id="submit" value="Place Order" style="font-size: large;" class="button">
+      </form>
+      <script type="text/javascript" src="checkout.js"></script>
+      </div>';
+    } else if (!empty($_POST['category_id'])) {
+      include "dbconnect.php";
+
+      echo '
+      <div class="flexcontainer" >
+      <form action='.$_SERVER['PHP_SELF'].' method="post">
+      <label for="item_name" style="font-size: large;">Item Name</label><br>
+      <input type="text" name="item_name" ><br><br>
+      <label for="item_description" style="font-size: large;">Description</label><br>
+      <input type="text" name="item_description" ><br><br>
+      <table border="0">
+      <caption style="font-size:xx-large;margin-bottom:20px;color:#115448"><b>Size Details</b></caption>
+      <thead>
+      <tr>
+        <th>Size Name
+        <th>Price</th>
+        <th>Quantity</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input style="width:50px;text-align:center" type="text" name="size_name_new_1"></td>
+          <td><input style="width:50px;text-align:center" type="number" min="0" name="price_new_1"></td>
+          <td><input style="width:50px;text-align:center" type="number" name="quantity_new_1"></td>
+        </tr>
+      </tbody>
+      </table>
+      <input type="button" name="Add" value="Add Size" onclick="" style="font-size: large;" class="button">
       <input type="submit" name="submit" id="submit" value="Place Order" style="font-size: large;" class="button">
       </form>
       <script type="text/javascript" src="checkout.js"></script>

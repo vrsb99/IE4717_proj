@@ -93,7 +93,11 @@
               $cat_id = $catrow['categoryid'];
               $cat_name = $catrow['name'];
               echo '<h2 style="font-size:xx-large;margin-right:150px" id="'.$cat_id.'">'.$cat_name.'</h2>';
-              echo '<div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">';
+              echo '<form action="editable_items.php" method="post">
+              <input type="hidden" name="category_id" value="'.$cat_id.'">
+              <button type="submit" class="addNewItemButton">Add New Item</button>
+              </form><br><br>
+              <div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">';
 
               // Get all items in the category
               $query = "SELECT * FROM items WHERE categoryid = ".$cat_id;
@@ -127,7 +131,6 @@
                               echo '<p style="font-size: 16px">'.$size_name.' ($'.$size_price.')</p>';
                             }
                         }
-
                 echo    '<button type="submit" class="editButton">Edit Item</button>
                         </form>';
               echo '  </div>
