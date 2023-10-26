@@ -116,25 +116,26 @@
         </tr>
         </tfoot>
       </table>
-      <p><input type="submit" name="save" id="save" value="Save & Continue Shopping"> or
+      <p><input class="submit" type="submit" name="save" id="save" value="Continue Shopping"> or
       <a href="'.$_SERVER['PHP_SELF'].'?empty=1">Empty Cart</a></p>
       <br>
       <h2>Customer Information</h2>
 
       <div class="customer_info">
       <label class="labels" for="name">*Name:</label>
-      <input class="input-field" type="text" id="name" name="name" required placeholder="Enter your name here"><br><br>
+      <input class="input-field" type="text" id="name" name="name"  placeholder="Enter your name here"><br><br>
 
       <label for="email">*E-mail:</label>
-      <input type="email" id="email" name="email" required placeholder="Enter your Email-ID here"><br><br>      
+      <input type="email" id="email" name="email" placeholder="Enter your Email-ID here"><br><br>      
       </div>
-      <input type="submit" name="submit" id="submit" value="Place Order" style="font-size: large;" class="button">
+      <input type="submit" name="submit" id="submit" value="Place Order" style="font-size: large; margin-left:250px; width: 300px" class="button">
 
       </form>
       <script type="text/javascript" src="checkout.js"></script>
       </div>';
     } 
     
+
     else {
       echo'<div class="flexcontainer">
               <div id="verticalflex">
@@ -142,7 +143,7 @@
                 <h2> Your cart is empty </h2>
                 <p> Looks like you have not added anything to your cart. </p>
                 <p style="text-align : center">Go ahead and explore our menu ! </p>
-                <button style="margin-left:180px" class= "button" onclick ="redirect()" "> Order Now</button>
+                <button style="margin-left:180px" class= "button" onclick ="redirect()"> Order Now</button>
               </div>
            </div>'
             ;

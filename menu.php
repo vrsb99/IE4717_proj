@@ -12,7 +12,7 @@
   </script>
 </head>
 
-<body>
+<body id="menu">
 <!-- Container for the website -->
   <div class="wrapper">
     <header>
