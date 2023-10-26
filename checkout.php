@@ -20,7 +20,11 @@
 
 <body>
 <!-- Container for the website -->
-
+  <script type="text/javascript">
+    function redirect(){
+      location.href="menu.php";
+    }
+  </script>
 
   <?php
     session_start();
@@ -132,8 +136,17 @@
     } 
     
     else {
-      header('location: menu.php');
-      exit();
+      echo'<div class="flexcontainer">
+              <div id="verticalflex">
+                <img style="margin-top:50px;margin-left:60px;width:300px; height:300px" src="./img/emptycart.png" alt="Empty Cart" >
+                <h2> Your cart is empty </h2>
+                <p> Looks like you have not added anything to your cart. </p>
+                <p style="text-align : center">Go ahead and explore our menu ! </p>
+                <button style="margin-left:180px" class= "button" onclick ="redirect()" "> Order Now</button>
+              </div>
+           </div>'
+            ;
+      
     }
     ?>
   <footer>
