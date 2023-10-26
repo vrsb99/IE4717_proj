@@ -45,7 +45,7 @@ if (isset($_POST["submit"])) {
     $_SESSION['cart'] = array();
     
     foreach ($_POST as $key => $value) {
-        if (strpos($key, 'queditaantity_') === 0) { // strpos() means string position
+        if (strpos($key, 'quantity_') === 0) { // strpos() means string position
             $sizeid = str_replace('quantity_', '', $key);
             $quantity = (int) $value;
             
@@ -55,7 +55,7 @@ if (isset($_POST["submit"])) {
             }
         }
     }
-    
+
     header('location: menu.php');
     exit();
 }
