@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,9 +10,13 @@
   <link rel="stylesheet" href="stylesheet.css">
   <script src="loadPage.js"></script>
   <script>
-    function notify(){
+  function notify(){
       alert("Item added into cart.")
     }
+
+  function remove(){
+      document.getElementById("logoutbutton").removeAttribute("hidden");
+  }
   </script>
 </head>
 
@@ -21,6 +29,16 @@
       </div>
       <h1 style="color:#115448">Leafy Bites</h1>
       <h1 style="color:#115448">Menu</h1>
+      <button id="dummy" onclick="remove()"></button>
+      
+      <?php
+        if (isset($_SESSION['valid_user'])) {
+          echo '<p > You are signed in as ' .$_SESSION['valid_user'].' </p>';
+          $script = '<script type="text/javascript"> document.getElementById("dummy").click(); </script>';
+          echo $script;
+        }
+      ?>
+
       <div id="navbar"></div>
     </header>
   </div>
@@ -35,10 +53,16 @@
         6. Get all sizes for the item
         7. Iterate through each size
         */
-        session_start();
+        if (!isset($_SESSION['valid_user'])){
+          $_SESSION['valid_user'] = array();
+        }
+
+        var_dump($_SESSION['valid_user']);
+
         if (!isset($_SESSION['cart'])){
           $_SESSION['cart'] = array();
         }
+
         if (isset($_POST['size_id'])) {
           array_push($_SESSION['cart'], $_POST['size_id']);
           header('location: ' . htmlspecialchars($_SERVER['PHP_SELF']) . '?' . SID);

@@ -1,7 +1,11 @@
 <?php
 session_start();
+
+
 if (isset($_POST["submit"])) {
     @ $db = new mysqli("localhost", "root", "", "leafybites");
+
+    var_dump($_SESSION['valid_user']);
 
     if (mysqli_connect_errno()) {
         $script = "<script>alert('Error: Could not connect to database. Please try again later.')</script>";

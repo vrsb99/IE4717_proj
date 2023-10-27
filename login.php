@@ -35,7 +35,7 @@ $query = 'select * from users '
     $_SESSION['valid_user'] = $email;    
     echo $script;
     
-    $script = '<script>alert("You are successfully logged in ! Browse our website and order your favourite food now !"); window.location.href = "index.php";</script>';
+    $script = '<script>alert("You are successfully logged in ! Browse our website and order your favourite food now !"); window.location.href = "index.html";</script>';
     echo $script;
     
   }
