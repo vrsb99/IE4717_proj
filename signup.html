@@ -17,7 +17,17 @@
       </div>
       <h1 style="color:#115448">Leafy Bites</h1>
       <h1 style="color:#115448">Sign Up</h1>
-      <div id="navbar"></div>
+      <nav class="primary">
+        <a href="index.html">Home</a>
+        <a href="menu.php">Menu</a>
+        <a id="changelink" href="past_orders.php">Past Orders</a>
+
+        <!-- Need to add a session control to lock this Logout button before logging in -->
+        <div style="float:right">
+          <button id="logoutbutton" name="logoutbutton" class="button" onclick="logout()" hidden> Logout </button>
+          <a  href="checkout.php">Cart</a>
+        </div>
+    </nav>
     </header>
   </div>
 

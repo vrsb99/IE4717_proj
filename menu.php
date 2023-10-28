@@ -1,5 +1,6 @@
 <?php
 session_start();
+var_dump($_SESSION['username']);
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +18,7 @@ session_start();
   function remove(){
       document.getElementById("logoutbutton").removeAttribute("hidden");
   }
+
   </script>
 </head>
 
@@ -29,18 +31,30 @@ session_start();
       </div>
       <h1 style="color:#115448">Leafy Bites</h1>
       <h1 style="color:#115448">Menu</h1>
-      <button id="dummy" onclick="remove()"></button>
-      
-      <?php
-        if (isset($_SESSION['valid_user'])) {
-          echo '<p > You are signed in as ' .$_SESSION['valid_user'].' </p>';
-          $script = '<script type="text/javascript"> document.getElementById("dummy").click(); </script>';
-          echo $script;
-        }
-      ?>
 
-      <div id="navbar"></div>
+      <!-- Navigation bar for all pages -->
+      <nav class="primary">
+     
+          <a href="index.html">Home</a>
+          <a href="menu.php">Menu</a>
+          <a id="changelink" href="past_orders.php">Past Orders</a>
+
+          <!-- Need to add a session control to lock this Logout button before logging in -->
+          <div style="float:right">
+            <button id="logoutbutton" name="logoutbutton" class="button" onclick="logout()" hidden> Logout </button>
+            <a href="checkout.php">Cart</a>
+          </div>
+      </nav>
     </header>
+
+    <?php
+      if (!empty($_SESSION['valid_user'])) {
+        $script = '<script type="text/javascript"> document.getElementById("logoutbutton").removeAttribute("hidden"); </script>';
+        echo $script;
+      }
+    ?>
+
+
   </div>
         <?php
         /*
@@ -57,7 +71,9 @@ session_start();
           $_SESSION['valid_user'] = array();
         }
 
-        var_dump($_SESSION['valid_user']);
+        if(!isset($_SESSION['username'])){
+          $_SESSION['username'] =array();
+        }
 
         if (!isset($_SESSION['cart'])){
           $_SESSION['cart'] = array();

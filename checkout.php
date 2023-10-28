@@ -12,7 +12,17 @@
       </div>
       <h1 style="color:#115448">Leafy Bites</h1>
       <h1 style="color:#115448">Cart</h1>
-      <div id="navbar"></div>
+      <nav class="primary">
+        <a href="index.html">Home</a>
+        <a href="menu.php">Menu</a>
+        <a id="changelink" href="past_orders.php">Past Orders</a>
+
+        <!-- Need to add a session control to lock this Logout button before logging in -->
+        <div style="float:right">
+          <button id="logoutbutton" name="logoutbutton" class="button" onclick="logout()" hidden> Logout </button>
+          <a  href="checkout.php">Cart</a>
+        </div>
+    </nav>
     </header>
   </div>
 
@@ -104,6 +114,18 @@
           $total += $price;
       }      
 
+      // if (!empty($_SESSION['valid_user'])) {
+      //   echo'
+      //     <tr>
+      //     <td></td>
+      //     <td></td>
+      //     <td></td>
+      //     <td style="text-align:center;margin-right:10px"><b>Discount:</b></td><br>
+      //     <th align="right" name="total_price" ><b>$'.number_format($total*0.05, 2).'
+      //     </b></th>
+      //     </tr>';
+      // }
+      
       echo '</tbody>
         <tfoot>
         <tr>
@@ -116,6 +138,7 @@
         </tr>
         </tfoot>
       </table>
+
       <p><input class="submit" type="submit" name="save" id="save" value="Continue Shopping"> or
       <a href="'.$_SERVER['PHP_SELF'].'?empty=1">Empty Cart</a></p>
       <br>

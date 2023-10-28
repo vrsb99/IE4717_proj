@@ -23,9 +23,19 @@
       <div class="center">
         <img class="logo" src="./img/leafylogo.png"  alt="Leafy Bites Logo" >
       </div>
-      <h1 style="color:#115448">Leafy Bites</h1>
-      <h1 style="color:#115448">Past Orders</h1>
-      <div id="navbar"></div>
+      <h1>Leafy Bites</h1>
+      <h1>Past Orders</h1>
+      <nav class="primary">
+        <a href="index.html">Home</a>
+        <a href="menu.php">Menu</a>
+        <a id="changelink" href="past_orders.php">Past Orders</a>
+
+        <!-- Need to add a session control to lock this Logout button before logging in -->
+        <div style="float:right">
+          <button id="logoutbutton" name="logoutbutton" class="button" onclick="logout()" hidden> Logout </button>
+          <a  href="checkout.php">Cart</a>
+        </div>
+    </nav>
     </header>
   </div>
 </head>
@@ -91,7 +101,7 @@
     else{
         echo'
               <div id="verticalflex">
-                <img style="margin-top:50px;margin-left:60px;width:300px; height:300px" src="./img/emptycart.png" alt="Empty Cart" >
+                <img style="margin-top:50px;margin-left:60px;width:300px; height:300px" src="./img/emptyorder.png" alt="Empty Cart" >
                 <h2> Oopss... your order history is empty. </h2>
                 <p style="text-align : center"> You have not placed an order before. </p>
                 <p style="text-align : center">Go ahead and explore our menu! </p>
