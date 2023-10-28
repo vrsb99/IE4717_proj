@@ -26,7 +26,7 @@
 
 <body>
     <?php  
-    $email = $_SESSION['valid_user'];
+    $email = (string) $_SESSION['valid_user'];
 
     echo '<div class = "flexcontainer">
     <form action="status.php" method="post">
@@ -41,16 +41,16 @@
 
     include "dbconnect.php";
     // I wanted to add WHERE claus, WHERE customers.email = "$_SESSION['valid_user']
-    $query = "SELECT customers.customerid, customers.email,orders.orderid FROM customers JOIN orders ON customers.customerid = orders.customerid ;";
+    $query = "SELECT customers.customerid, customers.email,orders.orderid FROM customers JOIN orders ON customers.customerid = orders.customerid WHERE customers.email = " . "'$email'";
     $result = $db ->query($query);
 
-    while ($orderid = $result->fetch_assoc()) {
+    while ($results = $result->fetch_assoc()) {
         
         $query = 'SELECT order_items.orderid,order_items.sizeid,sizes.name as sizename,order_items.itemid,items.name,order_items.price,order_items.quantity, (order_items.quantity * order_items.price) as subtotal
                   FROM order_items
                   INNER JOIN items ON items.itemid = order_items.itemid
                   INNER JOIN sizes ON sizes.sizeid = order_items.sizeid
-                  WHERE order_items.orderid = 2';
+                  WHERE order_items.orderid =' . $results['orderid'];
         
         $intermediateresult=$db->query($query);
         
