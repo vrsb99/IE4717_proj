@@ -47,3 +47,6 @@ INSERT INTO order_items (orderid, itemid, sizeid, price, quantity) VALUES
     (1, 1, 1, 5.00, 1),
     (1, 4, 5, 7.00, 2),
     (1, 7, 11, 2.00, 3);
+
+INSERT INTO admin (adminid, password) VALUES    
+    (0,"adminpassword");

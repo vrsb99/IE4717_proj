@@ -5,6 +5,16 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="stylesheet.css">
   <script src='loadPage.js'></script>
+  <script>
+    function remove(){
+      document.getElementById("logoutbutton").removeAttribute("hidden");
+
+      var link = document.getElementById('changelink');
+      link.getAttribute("href");
+      link.setAttribute("href","login.html");
+      link.textContent = "Login";
+    }
+  </script>
 </head>
 
 <body>
@@ -15,6 +25,7 @@
       </div>
       <h1 style="color:#115448">Leafy Bites</h1>
       <div id="navbar"></div>
+      <button onclick="remove()"></button>
     </header>
   </div>
   
