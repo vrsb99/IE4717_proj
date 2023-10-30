@@ -1,3 +1,7 @@
+<?php
+  include "session_start.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,24 +9,28 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="stylesheet.css">
   <script src="loadPage.js"></script>  
+  <script src="functionality.js"></script>
   <div class="wrapper">
     <header>
       <div class="center">
         <img class="logo" src="./img/leafylogo.png"  alt="Leafy Bites Logo" >
       </div>
-      <h1 style="color:#115448">Leafy Bites</h1>
-      <h1 style="color:#115448">Cart</h1>
+      <h1>Leafy Bites</h1>
+      <h1>Cart</h1>
       <nav class="primary">
-        <a href="index.html">Home</a>
+        <a href="index.php">Home</a>
         <a href="menu.php">Menu</a>
         <a id="changelink" href="past_orders.php">Past Orders</a>
 
         <!-- Need to add a session control to lock this Logout button before logging in -->
         <div style="float:right">
-          <button id="logoutbutton" name="logoutbutton" class="button" onclick="logout()" hidden> Logout </button>
-          <a  href="checkout.php">Cart</a>
-        </div>
-    </nav>
+            <form action="logout.php" method="post">
+            <input type = "hidden" name = "newhidden" id="newhidden" value=""></input>
+            <button id="logoutbutton" name="logoutbutton" class="button" hidden onclick="userlogout()"> Logout </button>
+            <a  href="checkout.php">Cart</a>  
+            </form>
+            </div>
+      </nav>
     </header>
   </div>
 
@@ -37,9 +45,12 @@
   </script>
 
   <?php
-    session_start();
-    if (!isset($_SESSION['cart'])){
-      $_SESSION['cart'] = array();
+    
+    if (!empty($_SESSION['valid_user'])){
+      echo '<script> remove() </script>';
+    }
+    else {
+      echo '<script> changelink() </script>';
     }
     
     if (isset($_GET['empty'])) {

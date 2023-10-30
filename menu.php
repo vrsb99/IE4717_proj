@@ -1,6 +1,5 @@
 <?php
-session_start();
-var_dump($_SESSION['username']);
+  include "session_start.php";
 ?>
 
 <!DOCTYPE html>
@@ -10,15 +9,11 @@ var_dump($_SESSION['username']);
   <meta charset="utf-8">
   <link rel="stylesheet" href="stylesheet.css">
   <script src="loadPage.js"></script>
+  <script src="functionality.js"></script>
   <script>
   function notify(){
       alert("Item added into cart.")
     }
-
-  function remove(){
-      document.getElementById("logoutbutton").removeAttribute("hidden");
-  }
-
   </script>
 </head>
 
@@ -34,26 +29,20 @@ var_dump($_SESSION['username']);
 
       <!-- Navigation bar for all pages -->
       <nav class="primary">
-     
-          <a href="index.html">Home</a>
+          <a href="index.php">Home</a>
           <a href="menu.php">Menu</a>
           <a id="changelink" href="past_orders.php">Past Orders</a>
-
           <!-- Need to add a session control to lock this Logout button before logging in -->
           <div style="float:right">
-            <button id="logoutbutton" name="logoutbutton" class="button" onclick="logout()" hidden> Logout </button>
-            <a href="checkout.php">Cart</a>
+            <form action="logout.php" method="post">
+            <input type = "hidden" name = "newhidden" id="newhidden" value=""></input>
+            <button id="logoutbutton" name="logoutbutton" class="button" hidden onclick="userlogout()"> Logout </button>
+            <a  href="checkout.php">Cart</a>  
+            </form>
           </div>
+        </form>
       </nav>
     </header>
-
-    <?php
-      if (!empty($_SESSION['valid_user'])) {
-        $script = '<script type="text/javascript"> document.getElementById("logoutbutton").removeAttribute("hidden"); </script>';
-        echo $script;
-      }
-    ?>
-
 
   </div>
         <?php
@@ -67,16 +56,12 @@ var_dump($_SESSION['username']);
         6. Get all sizes for the item
         7. Iterate through each size
         */
-        if (!isset($_SESSION['valid_user'])){
-          $_SESSION['valid_user'] = array();
-        }
 
-        if(!isset($_SESSION['username'])){
-          $_SESSION['username'] =array();
+        if (!empty($_SESSION['valid_user'])){
+          echo '<script> remove() </script>';
         }
-
-        if (!isset($_SESSION['cart'])){
-          $_SESSION['cart'] = array();
+        else {
+          echo '<script> changelink() </script>';
         }
 
         if (isset($_POST['size_id'])) {

@@ -1,11 +1,23 @@
 <?php
-session_start();
+
+include "session_start.php";
+
 
 
 if (isset($_POST["submit"])) {
-    @ $db = new mysqli("localhost", "root", "", "leafybites");
 
-    var_dump($_SESSION['valid_user']);
+    $to      = 'f31ee@localhost';
+    $subject = 'Order Confirmation Letter';
+    $message = 'Hello!
+    Thank you so much for your business! We will get started on your order right away! In the meantime, if any questions come up, please do not hesitate to message us.';
+    $headers = 'From: leafybites@localhost' . "\r\n" .
+    'Reply-To: leafybites@localhost' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+
+    mail($to, $subject, $message, $headers,'-leafybites@localhost');
+    echo ("mail sent to : ".$to);
+
+    @ $db = new mysqli("localhost", "root", "", "leafybites");
 
     if (mysqli_connect_errno()) {
         $script = "<script>alert('Error: Could not connect to database. Please try again later.')</script>";
@@ -106,14 +118,28 @@ function removeOrderedItem($db, $size_id, $quantity) {
   <meta charset="utf-8">
   <link rel="stylesheet" href="stylesheet.css">
   <script src="loadPage.js"></script>  
+  <script src="functionality.js"></script>
   <div class="wrapper">
     <header>
       <div class="center">
         <img class="logo" src="./img/leafylogo.png"  alt="Leafy Bites Logo" >
       </div>
-      <h1 style="color:#115448">Leafy Bites</h1>
-      <h1 style="color:#115448">Order Status</h1>
-      <div id="navbar"></div>
+      <h1>Leafy Bites</h1>
+      <h1>Order Status</h1>
+      <nav class="primary">
+          <a href="index.php">Home</a>
+          <a href="menu.php">Menu</a>
+          <a id="changelink" href="past_orders.php">Past Orders</a>
+          <!-- Need to add a session control to lock this Logout button before logging in -->
+          <div style="float:right">
+            <form action="logout.php" method="post">
+            <input type = "hidden" name = "newhidden" id="newhidden" value=""></input>
+            <button id="logoutbutton" name="logoutbutton" class="button" hidden onclick="userlogout()"> Logout </button>
+            <a  href="checkout.php">Cart</a>  
+            </form>
+        </div>
+      </nav>
+
     </header>
   </div>
 

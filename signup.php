@@ -28,6 +28,6 @@ $result = $db->query($sql);
 if (!$result) 
 	echo "Your query failed.";
 else
-	$script = '<script>alert("Welcome ' . $username . '. You are now registered !"); window.location.href = "index.html";</script>';
+	$script = '<script>alert("Welcome ' . $username . '. You are now registered !"); window.location.href = "index.php";</script>';
 	echo $script;
 ?>

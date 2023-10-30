@@ -11,6 +11,6 @@
 
     $script = '<script> alert("Thank you for your valuable feedback. We love hearing from you!")</script>';
     echo $script;
-    $script = '<script> location.href="index.html" </script>';
+    $script = '<script> location.href="index.php" </script>';
     echo $script ; 
 ?>

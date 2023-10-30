@@ -1,7 +1,5 @@
 <?php
-    session_start();
-    var_dump($_SESSION['valid_user']);
-
+    include "session_start.php"
 ?>
 
 <!DOCTYPE html>
@@ -11,6 +9,7 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="stylesheet.css">
   <script src="loadPage.js"></script>
+  <script src="functionality.js"></script>
   <script type="text/javascript">
     function redirect(){
       location.href="menu.php";
@@ -26,15 +25,18 @@
       <h1>Leafy Bites</h1>
       <h1>Past Orders</h1>
       <nav class="primary">
-        <a href="index.html">Home</a>
+        <a href="index.php">Home</a>
         <a href="menu.php">Menu</a>
         <a id="changelink" href="past_orders.php">Past Orders</a>
 
         <!-- Need to add a session control to lock this Logout button before logging in -->
         <div style="float:right">
-          <button id="logoutbutton" name="logoutbutton" class="button" onclick="logout()" hidden> Logout </button>
-          <a  href="checkout.php">Cart</a>
-        </div>
+            <form action="logout.php" method="post">
+            <input type = "hidden" name = "newhidden" id="newhidden" value=""></input>
+            <button id="logoutbutton" name="logoutbutton" class="button" hidden onclick="userlogout()"> Logout </button>
+            <a  href="checkout.php">Cart</a>  
+            </form>
+          </div>
     </nav>
     </header>
   </div>
@@ -43,7 +45,13 @@
 <body>
     <?php  
     $email = (string) $_SESSION['valid_user'];
-
+    if (!empty($_SESSION['valid_user'])){
+      echo '<script> remove() </script>';
+    }
+    else {
+      echo '<script> changelink() </script>';
+    }
+    
     echo '<div class = "flexcontainer">';
     
     include "dbconnect.php";

@@ -22,7 +22,7 @@
       <h1 style="color:#115448">Leafy Bites</h1>
       <h1 style="color:#115448">Menu</h1>
       <nav class="primary">
-        <a href="index.html">Home</a>
+        <a href="index.php">Home</a>
         <a href="menu.php">Menu</a>
         <a id="changelink" href="past_orders.php">Past Orders</a>
 
