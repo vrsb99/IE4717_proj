@@ -22,3 +22,11 @@ function userlogout() {
         document.getElementById("newhidden").setAttribute("value",check);
     }
 }
+
+function exit() {
+    var check = confirm("Are you sure you want to quit?");
+    
+    if (check) {
+       location.href = "index.php";
+    }
+}

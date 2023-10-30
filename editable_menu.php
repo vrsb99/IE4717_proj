@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="stylesheet.css">
   <script src="loadPage.js"></script>
+  <script src="functionality.js"></script>
   <script>
     function notify(){
       alert("Item added into cart.")
@@ -19,18 +20,13 @@
       <div class="center">
         <img class="logo" src="./img/leafylogo.png"  alt="Leafy Bites Logo" >
       </div>
-      <h1 style="color:#115448">Leafy Bites</h1>
-      <h1 style="color:#115448">Menu</h1>
-      <nav class="primary">
-        <a href="index.php">Home</a>
-        <a href="menu.php">Menu</a>
-        <a id="changelink" href="past_orders.php">Past Orders</a>
-
+      <h1>Leafy Bites</h1>
+      <h1>Admin Menu</h1>
         <!-- Need to add a session control to lock this Logout button before logging in -->
-        <div style="float:right">
-          <button id="logoutbutton" name="logoutbutton" class="button" onclick="logout()" hidden> Logout </button>
-          <a  href="checkout.php">Cart</a>
-        </div>
+    <nav>
+      <div style="float:right">
+        <input type="button" class="button" onclick = "exit()" value="Quit Editing"></input>
+      </div>
     </nav>
     </header>
   </div>
@@ -126,23 +122,30 @@
 
                     echo '<div class="box">  
                     <div id="verticalflex">
+                    
                         <img src="./img/roastchicken.jpg" width=200 height=200 alt="McChicken">
+                        <div class="flexcontainer" style="background-color: #e3f0e7">
+                        <div id="verticalflex">
                         <p style="font-size: 20px">
                             <b>'.$item_name.'</b> <br>
                             '.wordwrap($item_description, 30, "<br>").'
-                        </p>
-                        <form action="editable_items.php" method="post">';
-                        echo '<input type="hidden" name="item_id" value="'.$item_id.'">';
+                        </p>';
+
+                    if (isset($sizes)) {
+                      while ($sizerow = $sizes->fetch_assoc()) {
+                        $size_name = htmlspecialchars($sizerow["name"]);
+                        $size_price = htmlspecialchars($sizerow["price"]);
+                        echo '<p style="font-size: 16px">'.$size_name.' ($'.$size_price.')</p>';
+                      }
+                  }   
+                  echo '</div>';
+                  echo '<form action="editable_items.php" method="post">
+                    <input type="hidden" name="item_id" value="'.$item_id.'">';
     
-                        if (isset($sizes)) {
-                            while ($sizerow = $sizes->fetch_assoc()) {
-                              $size_name = htmlspecialchars($sizerow["name"]);
-                              $size_price = htmlspecialchars($sizerow["price"]);
-                              echo '<p style="font-size: 16px">'.$size_name.' ($'.$size_price.')</p>';
-                            }
-                        }
+                       
                 echo    '<button type="submit" class="editButton">Edit Item</button>
-                        </form>';
+                        </form>
+                        </div>';
               echo '  </div>
                   </div>';
                 }

@@ -5,17 +5,16 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="stylesheet.css">
   <script src="loadPage.js"></script>  
+  <script src="functionality.php"></script>
   <div class="wrapper">
     <header>
       <div class="center">
         <img class="logo" src="./img/leafylogo.png"  alt="Leafy Bites Logo" >
       </div>
-      <h1 style="color:#115448">Leafy Bites</h1>
-      <h1 style="color:#115448">Cart</h1>
+      <h1>Leafy Bites</h1>
+      <h1>Edit Items</h1>
       <nav class="primary">
-        <a href="index.php">Home</a>
-        <a href="menu.php">Menu</a>
-        <a id="changelink" href="past_orders.php">Past Orders</a>
+        <a href="editable_menu.php"> << Back to Admin Menu</a>
 
         <!-- Need to add a session control to lock this Logout button before logging in -->
         <div style="float:right">
