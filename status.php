@@ -2,8 +2,6 @@
 
 include "session_start.php";
 
-
-
 if (isset($_POST["submit"])) {
 
     $to      = 'f31ee@localhost';
@@ -139,12 +137,20 @@ function removeOrderedItem($db, $size_id, $quantity) {
             </form>
         </div>
       </nav>
-
     </header>
   </div>
 
   <body>
     <?php 
+         
+         if (!empty($_SESSION['valid_user'])){
+            echo '<script> remove() </script>';
+          }
+          else {
+            echo '<script> changelink() </script>';
+          }
+
+
         // echo '<script>alert("Thank you! Your order has been placed, and the chef will start cooking shortly... ")</script>';
         echo'<div class="flexcontainer">
                 <div id="verticalflex">
