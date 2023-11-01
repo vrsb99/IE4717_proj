@@ -8,7 +8,7 @@ CREATE TABLE items(
     categoryid INT UNSIGNED NOT NULL,
     name VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
-    image VARCHAR(50) NOT NULL,
+    image VARCHAR(50),
     FOREIGN KEY (categoryid) REFERENCES category(categoryid)
 );
 

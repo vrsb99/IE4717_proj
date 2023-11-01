@@ -138,16 +138,15 @@
                         echo '<p style="font-size: 16px">'.$size_name.' ($'.$size_price.')</p>';
                       }
                   }   
-                  echo '</div>';
-                  echo '<form action="editable_items.php" method="post">
-                    <input type="hidden" name="item_id" value="'.$item_id.'">';
-    
-                       
-                echo    '<button type="submit" class="editButton">Edit Item</button>
-                        </form>
+            echo '</div>
+                  <form action="editable_items.php" method="post">
+                  <input type="hidden" name="item_id" value="'.$item_id.'">
+                  <input type="hidden" name="category_id" value="'.$cat_id.'">
+                  <button type="submit" class="editButton">Edit Item</button>
+                  </form>
+                    </div>
+                      </div>
                         </div>';
-              echo '  </div>
-                  </div>';
                 }
               }
               echo '</div>';

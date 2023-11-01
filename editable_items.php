@@ -31,12 +31,65 @@
 <!-- Container for the website -->
 
 
-  <?php
-    if (!empty($_POST['item_id'])) {
+<?php
+  if (isset($_POST['submit'])) {
+    $cat_id = $_POST['category_id'];
+    
+    include "dbconnect.php";
+
+    // Handle new or existing items
+    if (isset($_POST['item_id'])) {
+        $item_id = $_POST['item_id'];
+        $item_name = $_POST['item_name'];
+        $item_description = $_POST['item_description'];
+        
+        // Update existing item details
+        $stmt = $db->prepare("UPDATE items SET name=?, description=? WHERE itemid=?");
+        $stmt->bind_param("ssi", $item_name, $item_description, $item_id);
+        $stmt->execute();
+    } else {
+        $item_name = $_POST['item_name'];
+        $item_description = $_POST['item_description'];
+        
+        // Insert new item and get its ID
+        $stmt = $db->prepare("INSERT INTO items (categoryid, name, description) VALUES (?, ?, ?)");
+        $stmt->bind_param("iss", $cat_id, $item_name, $item_description);
+        $stmt->execute();
+        $item_id = $db->insert_id;
+    }
+    
+    // Handle sizes (both new and existing)
+    for ($i = 1; isset($_POST['size_name_' . $i]); $i++) {
+        if (isset($_POST['size_id_' . $i])) {
+            // Get details of existing size
+            $sizeid = $_POST['size_id_' . $i];
+            $size_name = $_POST['size_name_' . $i];
+            $price = $_POST['price_' . $i];
+            $quantity = isset($_POST['quantity_' . $i]) ? $_POST['quantity_' . $i] : NULL;
+            
+            // Update existing size
+            $stmt = $db->prepare("UPDATE sizes SET name=?, price=?, quantity=? WHERE sizeid=?");
+            $stmt->bind_param("sdii", $size_name, $price, $quantity, $sizeid);
+            $stmt->execute();
+        } else {
+            // Get details of new size
+            $size_name = $_POST['size_name_' . $i];
+            $price = $_POST['price_' . $i];
+            $quantity = isset($_POST['quantity_' . $i]) ? $_POST['quantity_' . $i] : NULL; // Quantity is optional
+            
+            // Insert new size
+            $stmt = $db->prepare("INSERT INTO sizes (itemid, name, price, quantity) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("isdi", $item_id, $size_name, $price, $quantity);
+            $stmt->execute();
+        }
+    }
+    header("location: editable_menu.php");
+  } elseif (isset($_POST['item_id'])) {
       
       include "dbconnect.php";
 
       $item_id = $_POST['item_id'];
+      $cat_id = $_POST['category_id'];
       
       $query = "SELECT items.name as item_name, items.description, sizes.sizeid, sizes.name as size_name, sizes.price, sizes.quantity FROM items, sizes WHERE items.itemid = sizes.itemid AND items.itemid = ".$item_id;
       $result = $db->query($query);
@@ -47,10 +100,12 @@
       echo '
       <div class="flexcontainer" >
       <form action='.$_SERVER['PHP_SELF'].' method="post">
+      <input type="hidden" name="item_id" value="'.$item_id.'">
+      <input type="hidden" name="category_id" value="'.$cat_id.'">
       <label for="item_name" style="font-size: large;">Item Name</label><br>
-      <input type="text" name="item_name" value="'.$item_name.'" ><br><br>
+      <input type="text" name="item_name" required value="'.$item_name.'" ><br><br>
       <label for="item_description" style="font-size: large;">Description</label><br>
-      <input type="text" name="item_description" value="'.$item_description.'" ><br><br>
+      <input type="text" name="item_description" required value="'.$item_description.'" ><br><br>
       <table border="0">
       <caption style="font-size:xx-large;margin-bottom:20px;color:#115448"><b>Size Details</b></caption>
       <thead>
@@ -60,38 +115,43 @@
         <th>Quantity</th>
       </tr>
       </thead>
-      <tbody>';
+      <tbody id="sizeTableBody">';
       $result -> data_seek(0);
+      $i = 1;
       while($row = $result->fetch_assoc()) {
           $sizeid = $row['sizeid'];
           $size_name = $row['size_name'];
           $unit_price = $row['price'];
           $quantity = $row['quantity'];
           echo "<tr>";
-          echo "<td><input style='width:50px;text-align:center' type='text' name='size_name_".$sizeid."' value=".$size_name."></td>";
-          echo "<td><input style='width:50px;text-align:center' type='number' min='0' name='price_".$sizeid."' value=".$unit_price."></td>";
+          echo "<td><input style='width:50px;text-align:center' type='text' required name='size_name_".$i."' value=".$size_name."></td>";
+          echo "<td><input style='width:50px;text-align:center' type='number' required min='0' step='0.01' name='price_".$i."' value=".$unit_price."></td>";
           echo "<td><input style='width:50px;text-align:center' type='number' name='quantity_".$sizeid."' value=" . (is_null($quantity) ? "" : $quantity) . "></td>";
+          echo "<input type='hidden' name='size_id_".$sizeid."' value='".$sizeid."'>";
           // Shows empty value if quantity is null else shows quantity
           echo "</tr>";
+          $i++;
       }      
 
       echo '</tbody>
       </table>
-      <input type="button" name="Add" value="Add Size" onclick="" style="font-size: large;" class="button">
-      <input type="submit" name="submit" id="submit" value="Place Order" style="font-size: large;" class="button">
+      <input type="button" name="Add" value="Add Size" onclick="addSizeRow()" style="font-size: large;" class="button">
+      <input type="submit" name="submit" value="Edit Sizes" style="font-size: large;" class="button"> 
       </form>
-      <script type="text/javascript" src="checkout.js"></script>
+      <script type="text/javascript" src="editable_items.js"></script>
       </div>';
-    } else if (!empty($_POST['category_id'])) {
-      include "dbconnect.php";
+    } elseif (isset($_POST['category_id'])) {
+      
+      $cat_id = $_POST['category_id'];
 
       echo '
       <div class="flexcontainer" >
       <form action='.$_SERVER['PHP_SELF'].' method="post">
+      <input type="hidden" name="category_id" value="'.$cat_id.'">
       <label for="item_name" style="font-size: large;">Item Name</label><br>
-      <input type="text" name="item_name" ><br><br>
+      <input type="text" required name="item_name" ><br><br>
       <label for="item_description" style="font-size: large;">Description</label><br>
-      <input type="text" name="item_description" ><br><br>
+      <input type="text" required name="item_description" ><br><br>
       <table border="0">
       <caption style="font-size:xx-large;margin-bottom:20px;color:#115448"><b>Size Details</b></caption>
       <thead>
@@ -101,18 +161,18 @@
         <th>Quantity</th>
       </tr>
       </thead>
-      <tbody>
+      <tbody id="sizeTableBody">
         <tr>
-          <td><input style="width:50px;text-align:center" type="text" name="size_name_new_1"></td>
-          <td><input style="width:50px;text-align:center" type="number" min="0" name="price_new_1"></td>
-          <td><input style="width:50px;text-align:center" type="number" name="quantity_new_1"></td>
+          <td><input style="width:50px;text-align:center" required type="text" name="size_name_1"></td>
+          <td><input style="width:50px;text-align:center" required type="number" min="0" step="0.01" name="price_1"></td>
+          <td><input style="width:50px;text-align:center" type="number" name="quantity_1"></td>
         </tr>
       </tbody>
       </table>
-      <input type="button" name="Add" value="Add Size" onclick="" style="font-size: large;" class="button">
-      <input type="submit" name="submit" id="submit" value="Place Order" style="font-size: large;" class="button">
+      <input type="button" name="Add" value="Add Size" onclick="addSizeRow()" style="font-size: large;" class="button">
+      <input type="submit" name="submit" value="Add New Item" style="font-size: large;" class="button">
       </form>
-      <script type="text/javascript" src="checkout.js"></script>
+      <script type="text/javascript" src="editable_items.js"></script>
       </div>';
     }
     ?>
