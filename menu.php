@@ -103,7 +103,6 @@
               // Get all items in the category
               $query = "SELECT * FROM items WHERE categoryid = ".$cat_id;
               $items = $db->query($query);
-              $num_items = $items->num_rows;
               
               if (isset($items)) {
                 $itemCounter = 0;
@@ -116,12 +115,12 @@
                     $item_description = $itemrow["description"];
 
                     // Get all sizes for the item
-                    $query = "SELECT sizeid, name, price, quantity FROM sizes WHERE itemid = (?)";
+                    $query = "SELECT sizeid, name, price, quantity FROM sizes WHERE itemid = ? AND (quantity IS NULL OR quantity != 0)";
                     $stmt = $db->prepare($query);
                     $stmt->bind_param("i", $item_id);
                     $stmt->execute();
                     $sizes = $stmt->get_result();
-                    $num_rows = $item_id % 3;
+                    if ($sizes->num_rows > 0) {
                     echo '<div class="box">  
                     <div id="verticalflex">
                         <img src="./img/roastchicken.jpg" width=200 height=200 alt="McChicken">
@@ -149,12 +148,14 @@
 
                               <button type="submit" class="addButton" onclick="notify()"> Add to Cart</button>
                         </form>';
+                        $itemCounter++; // Increment counter only if item has sizes to display
               echo '  </div>
                   </div>';
-                  if ($itemCounter % 3 == 2) {
+                  }
+                  if ($itemCounter % 3 == 0) {
                     echo '</div>';
                   }
-                  $itemCounter++;
+                  
                 }
               }
               echo '</div>';

@@ -41,8 +41,6 @@ CREATE TABLE order_items(
     quantity INT UNSIGNED NOT NULL,
     PRIMARY KEY (orderid, itemid, sizeid),
     FOREIGN KEY (orderid) REFERENCES orders(orderid),
-    FOREIGN KEY (itemid) REFERENCES items(itemid),
-    FOREIGN KEY (sizeid) REFERENCES sizes(sizeid)
 );
 
 CREATE TABLE users(
