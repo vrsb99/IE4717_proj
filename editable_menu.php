@@ -44,6 +44,20 @@
         // Connect to database
         include "dbconnect.php";
 
+        if (isset($_POST['delete_item_id'])) {
+          $delete_item_id = $_POST['delete_item_id'];
+
+          $stmt = $db->prepare("DELETE FROM sizes WHERE itemid = ?");
+          $stmt->bind_param("i", $delete_item_id);
+          $stmt->execute();
+          $stmt->close();
+
+          $stmt = $db->prepare("DELETE FROM items WHERE itemid = ?");
+          $stmt->bind_param("i", $delete_item_id);
+          $stmt->execute();
+          $stmt->close();
+        }
+
         // Insert new category
         if (isset($_POST['cat_name'])) {
           $cat_name = $_POST['cat_name'];
@@ -84,7 +98,7 @@
           
           echo '<li>
                 <form action="'.$_SERVER['PHP_SELF'].'" method="POST">
-                <input type="text" name="cat_name" placeholder="New Category">
+                <input type="text" name="cat_name" required placeholder="New Category">
                 <input type="submit" value="Add">
                 </form>
                 </li><br><br><br>
@@ -101,7 +115,7 @@
               echo '<h2 style="font-size:xx-large;margin-right:150px" id="'.$cat_id.'">'.$cat_name.'</h2>';
               echo '<form action="editable_items.php" method="post">
               <input type="hidden" name="category_id" value="'.$cat_id.'">
-              <button type="submit" class="addNewItemButton">Add New Item</button>
+              <button type="submit" class="addNewItemButton" style="margin-bottom: 100px;">Add New Item</button>
               </form><br><br>
               <div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">';
 
@@ -137,16 +151,22 @@
                         $size_price = htmlspecialchars($sizerow["price"]);
                         echo '<p style="font-size: 16px">'.$size_name.' ($'.$size_price.')</p>';
                       }
-                  }   
-            echo '</div>
-                  <form action="editable_items.php" method="post">
-                  <input type="hidden" name="item_id" value="'.$item_id.'">
-                  <input type="hidden" name="category_id" value="'.$cat_id.'">
-                  <button type="submit" class="editButton">Edit Item</button>
-                  </form>
+                  } 
+                  echo '<div>
+                        <form action="editable_items.php" method="post">
+                        <input type="hidden" name="item_id" value="'.$item_id.'">
+                        <input type="hidden" name="category_id" value="'.$cat_id.'">
+                        <button type="submit" class="editButton">Edit Item</button>
+                        </form>
+                        <form action="'.$_SERVER['PHP_SELF'].'" method="post">
+                        <input type="hidden" name="delete_item_id" value="'.$item_id.'">
+                        <button type="submit" class="editButton">Delete Item</button>
+                        </form>
+              </div>
+                </div>
+                  </div>
                     </div>
-                      </div>
-                        </div>';
+                      </div>';
                 }
               }
               echo '</div>';
