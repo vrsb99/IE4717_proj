@@ -64,26 +64,35 @@
             // Get details of existing size
             $sizeid = $_POST['size_id_' . $i];
             $size_name = $_POST['size_name_' . $i];
-            $price = $_POST['price_' . $i];
-            $quantity = isset($_POST['quantity_' . $i]) ? $_POST['quantity_' . $i] : NULL;
+            $price = (double) $_POST['price_' . $i];
             
-            // Update existing size
-            $stmt = $db->prepare("UPDATE sizes SET name=?, price=?, quantity=? WHERE sizeid=?");
-            $stmt->bind_param("sdii", $size_name, $price, $quantity, $sizeid);
-            $stmt->execute();
+            if (isset($quantity)) {
+              $quantity = (int) $_POST['quantity_' . $i];
+              $stmt = $db->prepare("UPDATE sizes SET name=?, price=?, quantity=? WHERE sizeid=?");
+              $stmt->bind_param("sdii", $size_name, $price, $quantity, $sizeid);
+          } else {
+              $stmt = $db->prepare("UPDATE sizes SET name=?, price=?, quantity=NULL WHERE sizeid=?");
+              $stmt->bind_param("sdi", $size_name, $price, $sizeid);
+          }
+          $stmt->execute();
         } else {
             // Get details of new size
             $size_name = $_POST['size_name_' . $i];
-            $price = $_POST['price_' . $i];
-            $quantity = isset($_POST['quantity_' . $i]) ? $_POST['quantity_' . $i] : NULL; // Quantity is optional
-            
+            $price = (double) $_POST['price_' . $i];
+
             // Insert new size
-            $stmt = $db->prepare("INSERT INTO sizes (itemid, name, price, quantity) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("isdi", $item_id, $size_name, $price, $quantity);
+              if (isset($quantity)) {
+                $quantity = (int) $_POST['quantity_' . $i];
+                $stmt = $db->prepare("INSERT INTO sizes (itemid, name, price, quantity) VALUES (?, ?, ?, ?)");
+                $stmt->bind_param("isdi", $item_id, $size_name, $price, $quantity);
+            } else {
+                $stmt = $db->prepare("INSERT INTO sizes (itemid, name, price, quantity) VALUES (?, ?, ?, NULL)");
+                $stmt->bind_param("isd", $item_id, $size_name, $price);
+            }
             $stmt->execute();
         }
     }
-    header("location: editable_menu.php");
+    header("location: editable_menu.php") ;
   } elseif (isset($_POST['item_id'])) {
       
       include "dbconnect.php";
@@ -126,8 +135,8 @@
           echo "<tr>";
           echo "<td><input style='width:50px;text-align:center' type='text' required name='size_name_".$i."' value=".$size_name."></td>";
           echo "<td><input style='width:50px;text-align:center' type='number' required min='0' step='0.01' name='price_".$i."' value=".$unit_price."></td>";
-          echo "<td><input style='width:50px;text-align:center' type='number' name='quantity_".$sizeid."' value=" . (is_null($quantity) ? "" : $quantity) . "></td>";
-          echo "<input type='hidden' name='size_id_".$sizeid."' value='".$sizeid."'>";
+          echo "<td><input style='width:50px;text-align:center' type='number' name='quantity_".$i."' value=" . (is_null($quantity) ? "" : $quantity) . "></td>";
+          echo "<input type='hidden' name='size_id_".$i."' id='size_id_".$i."' value=".$sizeid.">";
           // Shows empty value if quantity is null else shows quantity
           echo "</tr>";
           $i++;

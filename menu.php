@@ -108,14 +108,17 @@
               
               if (isset($items)) {
                 while ($itemrow = $items->fetch_assoc()) {
-                    $item_id = $itemrow["itemid"];
+                    $item_id = (int) $itemrow["itemid"];
                     $item_name = $itemrow["name"];
                     $item_description = $itemrow["description"];
 
                     // Get all sizes for the item
-                    $query = "SELECT * FROM sizes WHERE itemid = ".$item_id;
-                    $sizes = $db->query($query);
-
+                    $query = "SELECT sizeid, name, price, quantity FROM sizes WHERE itemid = (?)";
+                    $stmt = $db->prepare($query);
+                    $stmt->bind_param("i", $item_id);
+                    $stmt->execute();
+                    $sizes = $stmt->get_result();
+                    $num_rows = $item_id % 3;
                     echo '<div class="box">  
                     <div id="verticalflex">
                         <img src="./img/roastchicken.jpg" width=200 height=200 alt="McChicken">
@@ -124,7 +127,6 @@
                             '.wordwrap($item_description, 30, "<br>").'
                         </p>
                         <form action="'.htmlspecialchars($_SERVER['PHP_SELF']).'" method="post">';
-
                         echo '<select name="size_id">';
 
                         if (isset($sizes)) {
