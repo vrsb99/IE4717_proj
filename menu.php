@@ -99,7 +99,6 @@
               $cat_id = $catrow['categoryid'];
               $cat_name = $catrow['name'];
               echo '<h2 style="font-size:xx-large;margin-right:150px" id="'.$cat_id.'">'.$cat_name.'</h2>';
-              echo '<div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">';
 
               // Get all items in the category
               $query = "SELECT * FROM items WHERE categoryid = ".$cat_id;
@@ -107,7 +106,11 @@
               $num_items = $items->num_rows;
               
               if (isset($items)) {
+                $itemCounter = 0;
                 while ($itemrow = $items->fetch_assoc()) {
+                  if ($itemCounter % 3 == 0) {
+                    echo '<div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">';
+                  }
                     $item_id = (int) $itemrow["itemid"];
                     $item_name = $itemrow["name"];
                     $item_description = $itemrow["description"];
@@ -148,9 +151,14 @@
                         </form>';
               echo '  </div>
                   </div>';
+                  if ($itemCounter % 3 == 2) {
+                    echo '</div>';
+                  }
+                  $itemCounter++;
                 }
               }
               echo '</div>';
+              
             }
           }
           echo '</div>';
