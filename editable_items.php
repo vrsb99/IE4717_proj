@@ -65,8 +65,9 @@
             $sizeid = $_POST['size_id_' . $i];
             $size_name = $_POST['size_name_' . $i];
             $price = (double) $_POST['price_' . $i];
+            $quantity = $_POST['quantity_' . $i] == "" ? NULL : (int) $_POST['quantity_' . $i];
 
-          if (isset($_POST['quantity_' . $i])) {
+          if ($quantity != NULL) {
               $quantity = (int) $_POST['quantity_' . $i];
               $stmt = $db->prepare("UPDATE sizes SET name=?, price=?, quantity=? WHERE sizeid=?");
               $stmt->bind_param("sdii", $size_name, $price, $quantity, $sizeid);
@@ -79,9 +80,10 @@
             // Get details of new size
             $size_name = $_POST['size_name_' . $i];
             $price = (double) $_POST['price_' . $i];
+            $quantity = $_POST['quantity_' . $i] == "" ? NULL : (int) $_POST['quantity_' . $i];
 
             // Insert new size
-            if (isset($_POST['quantity_' . $i])) {
+            if ($quantity != NULL) {
                 $quantity = (int) $_POST['quantity_' . $i];
                 $stmt = $db->prepare("INSERT INTO sizes (itemid, name, price, quantity) VALUES (?, ?, ?, ?)");
                 $stmt->bind_param("isdi", $item_id, $size_name, $price, $quantity);
@@ -92,7 +94,7 @@
             $stmt->execute();
         }
     }
-    header("location: editable_menu.php") ;
+    // header("location: editable_menu.php") ;
   } elseif (isset($_POST['item_id'])) {
       
       include "dbconnect.php";
@@ -135,7 +137,7 @@
           echo "<tr>";
           echo "<td><input style='width:50px;text-align:center' type='text' required name='size_name_".$i."' value=".$size_name."></td>";
           echo "<td><input style='width:50px;text-align:center' type='number' required min='0' step='0.01' name='price_".$i."' oninput='numericValidation(this)' value=".$unit_price."></td>";
-          echo "<td><input style='width:50px;text-align:center' type='number' min='0' name='quantity_".$i."' oninput='numericValidation(this)' value=".$quantity."></td>";
+          echo "<td><input style='width:50px;text-align:center' type='number' name='quantity_".$i."' oninput='numericValidation(this)' value=".$quantity."></td>";
           echo "<input type='hidden' name='size_id_".$i."' id='size_id_".$i."' value=".$sizeid.">";
           // Shows empty value if quantity is null else shows quantity
           echo "</tr>";
@@ -174,7 +176,7 @@
         <tr>
           <td><input style="width:50px;text-align:center" required type="text" name="size_name_1"></td>
           <td><input style="width:50px;text-align:center" required type="number" min="0" step="0.01" name="price_1" oninput="numericValidation(this)"></td>
-          <td><input style="width:50px;text-align:center" type="number" name="quantity_1" min="0" oninput="numericValidation(this)"></td>
+          <td><input style="width:50px;text-align:center" type="number" name="quantity_1" oninput="numericValidation(this)"></td>
         </tr>
       </tbody>
       </table>

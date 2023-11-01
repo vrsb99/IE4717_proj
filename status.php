@@ -87,18 +87,23 @@ function checkQuantity($db, $size_id, $quantity) {
 }
 
 function insertOrderItem($db, $orderid, $size_id, $quantity) {
-    $query = "SELECT itemid, price FROM sizes WHERE sizeid = ".$size_id;
+    $query = "SELECT items.name as itemname, sizes.name as sizename, sizes.price as 
+    price FROM sizes INNER JOIN items ON sizes.itemid = items.itemid WHERE sizeid = ".$size_id;
     $result = $db->query($query);
     $row = $result->fetch_assoc();
 
     $orderid = (int) $orderid;
-    $item_id = (int) $row["itemid"];
+    $item_name = $row["itemname"];
+    $size_name = $row["sizename"];
     $price = (float) $row["price"];
     $size_id = (int) $size_id;
     $quantity = (int) $quantity;
 
-    $query = "INSERT INTO order_items VALUES (".$orderid.", ".$item_id.", ".$size_id.", ".$price.", ".$quantity.")";
-    $result = $db->query($query);
+    $query = "INSERT INTO order_items VALUES (?, ?, ?, ?, ?)";
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("isssi", $orderid, $item_name, $size_name, $price, $quantity);
+    $stmt->execute();
+    $stmt->close();
 }
 
 function removeOrderedItem($db, $size_id, $quantity) {

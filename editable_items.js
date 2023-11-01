@@ -22,7 +22,7 @@ function addSizeRow() {
 
   nameCell.innerHTML = `<input style='width:50px;text-align:center' type='text' required name='size_name_${sizeIndex}'">`;
   priceCell.innerHTML = `<input style='width:50px;text-align:center' type='number' required min='0' step='0.01' name='price_${sizeIndex}' onchange="numericValidation(this)">`;
-  quantityCell.innerHTML = `<input style='width:50px;text-align:center' type='number' min='0' name='quantity_${sizeIndex}' onchange="numericValidation(this)>`;
+  quantityCell.innerHTML = `<input style='width:50px;text-align:center' type='number' name='quantity_${sizeIndex}' onchange="numericValidation(this)>`;
 
   newRow.appendChild(nameCell);
   newRow.appendChild(priceCell);
