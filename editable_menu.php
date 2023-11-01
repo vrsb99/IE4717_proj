@@ -62,19 +62,30 @@
         if (isset($_POST['cat_name'])) {
           $cat_name = $_POST['cat_name'];
           $query = "INSERT INTO category VALUES (NULL, ".$cat_name.")";
-          $formatted = $db->prepare("INSERT INTO category (name) VALUES (?)");
-          $formatted->bind_param("s", $cat_name);
-          $formatted->execute();
-          $formatted->close();
+          $stmt = $db->prepare("INSERT INTO category (name) VALUES (?)");
+          $stmt->bind_param("s", $cat_name);
+          $stmt->execute();
+          $stmt->close();
         }
 
         if (isset($_POST['cat_id'])) {
-            $cat_id = $_POST['cat_id'];
-            $formatted = $db->prepare("DELETE FROM category WHERE categoryid = ?");
-            $formatted->bind_param("i", $cat_id);
-            $formatted->execute();
-            $formatted->close();
-        }
+          $cat_id = $_POST['cat_id'];
+          
+          $stmt = $db->prepare("DELETE sizes FROM sizes INNER JOIN items ON sizes.itemid = items.itemid WHERE items.categoryid = ?");
+          $stmt->bind_param("i", $cat_id);
+          $stmt->execute();
+          $stmt->close();
+      
+          $stmt = $db->prepare("DELETE FROM items WHERE categoryid = ?");
+          $stmt->bind_param("i", $cat_id);
+          $stmt->execute();
+          $stmt->close();
+      
+          $stmt = $db->prepare("DELETE FROM category WHERE categoryid = ?");
+          $stmt->bind_param("i", $cat_id);
+          $stmt->execute();
+          $stmt->close();
+      }      
 
         // Get all categories
         $query = "SELECT * FROM category";
