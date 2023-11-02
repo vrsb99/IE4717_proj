@@ -32,6 +32,13 @@
 
 
 <?php
+
+  include "session_start.php";
+  if ($_SESSION['admin'] == false) {
+    header('location: index.php');
+    exit();
+  }
+
   if (isset($_POST['submit'])) {
     $cat_id = $_POST['category_id'];
     

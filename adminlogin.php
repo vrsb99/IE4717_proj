@@ -1,4 +1,8 @@
 <?php
+    // Start session if not started
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
     //prompt function
     $password = $_REQUEST['hidden'];
     
@@ -8,14 +12,14 @@
     $adminpassword = $result->fetch_assoc()['password'];
 
     if ($adminpassword == $password){
-        $script = '<script>location.href="editable_menu.php"; </script>';
-        echo $script;
-    }
-    else {
+        $_SESSION['admin'] = true;
+        header("location: editable_menu.php");
+        exit();
+    } else {
+        $_SESSION["admin"] = false;
         echo "<script>alert('Incorrect password ! Please try again.')</script>";
         $previous = "<script>javascript:history.go(-1)</script>";
         echo $previous;
         exit();
     }
-
 ?>

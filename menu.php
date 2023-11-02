@@ -152,7 +152,8 @@
               echo '  </div>
                   </div>';
                   }
-                  if ($itemCounter % 3 == 0) {
+                  if ($itemCounter % 3 == 0 || $itemCounter == $items->num_rows) { 
+                  // Close flexcontainer div if 3 items have been displayed or if it is the last item
                     echo '</div>';
                   }
                   

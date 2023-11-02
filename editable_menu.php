@@ -6,11 +6,6 @@
   <link rel="stylesheet" href="stylesheet.css">
   <script src="loadPage.js"></script>
   <script src="functionality.js"></script>
-  <script>
-    function notify(){
-      alert("Item added into cart.")
-    }
-  </script>
 </head>
 
 <body>
@@ -43,6 +38,11 @@
         */
         // Connect to database
         include "dbconnect.php";
+        include "session_start.php";
+        if ($_SESSION['admin'] == false) {
+          header('location: index.php');
+          exit();
+        }
 
         if (isset($_POST['delete_item_id'])) {
           $delete_item_id = $_POST['delete_item_id'];
