@@ -76,7 +76,7 @@
   <div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">
 
       <div class="box" >  
-        <div id="verticalflex" > <img src="./img/trial.jpg" width = 200, height="200" alt="McChicken">
+        <div id="verticalflex" > <img src="./img/cheeseburger.jpg" width = 200, height="200" alt="McChicken">
           <p style="text-align: center; font-size: 20px"> <b>Beef Royale</b> <br>
             Leafy Bites makes a jam-packed burger so big, <br>you'll need both hands!
           </p>
@@ -85,7 +85,7 @@
 
   
       <div class="box">
-        <div id="verticalflex" > <img src="./img/pizzarice.jpg" width = 200, height="200" alt="McChicken">
+        <div id="verticalflex" > <img src="./img/tuna_salad.jpg" width = 200, height="200" alt="McChicken">
           <p style="text-align: center;font-size: 20px"> <b>Pizza Rice</b> <br>
             All the flavours of a vegetarian supreme, <br>baked into crispy, chewy rice.
           </p>

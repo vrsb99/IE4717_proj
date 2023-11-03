@@ -123,7 +123,7 @@
                     if ($sizes->num_rows > 0) {
                     echo '<div class="box">  
                     <div id="verticalflex">
-                        <img src="./img/roastchicken.jpg" width=200 height=200 alt="McChicken">
+                        <img src="./img/tuna_salad.jpg" width=200 height=200 alt="McChicken">
                         <p style="font-size: 20px">
                             <b>'.$item_name.'</b> <br>
                             '.wordwrap($item_description, 30, "<br>").'
@@ -149,18 +149,26 @@
                               <button type="submit" class="addButton" onclick="notify()"> Add to Cart</button>
                         </form>';
                         $itemCounter++; // Increment counter only if item has sizes to display
-              echo '  </div>
-                  </div>';
+                  echo '  </div>
+                          </div>
+                         ' ;
+                  $remainder = $itemCounter % 3;
+                  if ($itemCounter == $items->num_rows) {
+                    for ($x =2 ; $x>=$remainder ;$x--){
+                      echo '<div class="box"></div>';
+                    }
+                  }
+
                   }
                   if ($itemCounter % 3 == 0 || $itemCounter == $items->num_rows) { 
                   // Close flexcontainer div if 3 items have been displayed or if it is the last item
                     echo '</div>';
-                  }
-                  
+                  }            
                 }
+
               }
-              echo '</div>';
-              
+              ;
+
             }
           }
           echo '</div>';
