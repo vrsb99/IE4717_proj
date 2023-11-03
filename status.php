@@ -70,7 +70,8 @@ if (isset($_POST["submit"])) {
             }
         }
     }
-    
+
+
     header('location: menu.php');
     exit();
 }

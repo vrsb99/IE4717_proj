@@ -1,8 +1,20 @@
 var nameNode = document.getElementById('name');
 var emailNode = document.getElementById('email');
+var form = document.getElementById('customerform');
 
-nameNode.addEventListener('change', nameValidate, false);
-emailNode.addEventListener('change', emailValidate, false);
+function validation(int){
+    if (parseInt(int) == 0) {
+    nameNode.addEventListener('change', nameValidate, false);
+    emailNode.addEventListener('change', emailValidate, false);
+    form.addEventListener('submit', validateForm);
+    }
+    else {
+    nameNode.removeEventListener('change', nameValidate, false);
+    emailNode.removeEventListener('change', emailValidate, false);
+    form.removeEventListener('submit', validateForm)
+    };
+}
+
 
 function nameValidate(event){
     var name = event.currentTarget;
@@ -53,3 +65,16 @@ function priceForQuantity(inputElement) {
     priceElement.textContent = "$" + (new_price).toFixed(2);
     totalElement.textContent = "$" + (current_total - current_price + new_price).toFixed(2);
 }
+
+function validateForm(event) {
+    if (!nameValidate({currentTarget: nameNode}) || !emailValidate({currentTarget: emailNode}) || !dateValidate({currentTarget: start_date})) {
+        event.preventDefault();
+    }
+}
+
+
+// function removeevent() {  
+//     nameNode.removeEventListener("change",nameValidate,false);
+//     emailNode.removeEventListener("change",emailValidate,false);
+//     formNode.removeEventListener("change",validateForm);
+// }
