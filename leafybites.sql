@@ -40,7 +40,7 @@ CREATE TABLE order_items(
     price DECIMAL(10, 2) NOT NULL,
     quantity INT UNSIGNED NOT NULL,
     PRIMARY KEY (orderid, itemid, sizeid),
-    FOREIGN KEY (orderid) REFERENCES orders(orderid),
+    FOREIGN KEY (orderid) REFERENCES orders(orderid)
 );
 
 CREATE TABLE users(
