@@ -4,7 +4,7 @@
   <title>Leafy Bites</title>
   <meta charset="utf-8">
   <link rel="stylesheet" href="stylesheet.css">
-  <script src="loadPage.js"></script>  
+  <script src="loadPage.js"></script>
   <script src="functionality.php"></script>
   <div class="wrapper">
     <header>
@@ -15,12 +15,7 @@
       <h1>Edit Items</h1>
       <nav class="primary">
         <a href="editable_menu.php"> << Back to Admin Menu</a>
-
         <!-- Need to add a session control to lock this Logout button before logging in -->
-        <div style="float:right">
-          <button id="logoutbutton" name="logoutbutton" class="button" onclick="logout()" hidden> Logout </button>
-          <a  href="checkout.php">Cart</a>
-        </div>
     </nav>
     </header>
   </div>
@@ -29,7 +24,6 @@
 
 <body>
 <!-- Container for the website -->
-
 
 <?php
 
@@ -115,13 +109,16 @@
 
       echo '
       <div class="flexcontainer" >
-      <form action='.$_SERVER['PHP_SELF'].' method="post">
+      <input type="file">
+      <form action='.$_SERVER['PHP_SELF'].' method="post" enctype="multipart/form-data">
       <input type="hidden" name="item_id" value="'.$item_id.'">
-      <input type="hidden" name="category_id" value="'.$cat_id.'">
+      <input type="hidden" name="category_id" value="'.$cat_id.'">';
+      echo'  
       <label for="item_name" style="font-size: large;">Item Name</label><br>
       <input type="text" name="item_name" required value="'.$item_name.'" ><br><br>
       <label for="item_description" style="font-size: large;">Description</label><br>
       <input type="text" name="item_description" required value="'.$item_description.'" ><br><br>
+      <input type="file>
       <table border="0">
       <caption style="font-size:xx-large;margin-bottom:20px;color:#115448"><b>Size Details</b></caption>
       <thead>
@@ -185,15 +182,52 @@
         </tr>
       </tbody>
       </table>
-      <input type="button" name="Add" value="Add Size" onclick="addSizeRow()" style="font-size: large;" class="button">
-      <input type="submit" name="submit" value="Add New Item" style="font-size: large;" class="button">
+      <input type="button" name="Add" value="Add Size" onclick="addSizeRow()" style="font-size: large;margin-left:250px;margin-top:20px;width:150px" class="button">
+      <input type="submit" name="submit" value="Done Edit" style="font-size: large;width:150px" class="button">
       </form>
       <script type="text/javascript" src="editable_items.js"></script>
       </div>';
     }
     ?>
-  <footer>
-    <div id="footer"></div>
+  <!-- Footer for all pages -->
+<footer>
+    <section class="semicircle">
+      <img src="./img/leafylogo.png"  alt="Leafy Bites Logo" >
+      <h2 style="color: #FFFFFF; font-size:30px">Leafy Bites Proudly Present</h2>
+    </section>
+  
+    <br><br><br>
+    <div class="flexcontainer" >
+      
+        <div class="box">  
+          <div id="verticalflex" > <h3>Services</h3><br><br>
+            <p style="text-align: center; font-size: 15px;"> We offer delivery too ! <br> Singapore Islandwide <br><br>
+              Mon-Fri: 10am - 8pm <br>
+              Sat-Sun: 11am - 9pm
+            </p>
+          </div>
+        </div>
+  
+     
+        <div class="box">
+          <div id="verticalflex" > <h3>Subscribe to Leafy Bites now to get our special offers !</h3>
+            <input style="border: none; border-bottom:solid 2px #115448; background-color: #e3f0e7; text-align: center;" type=email placeholder="Email address">
+          </div>
+        </div>
+  
+        <div class="box">
+          <div id="verticalflex" > <h3> Contact Us </h3>
+            <p style="text-align: center; font-size: 15px;"> HP: +65 8188-6905 (Vilan)<br> HP: +65 8683-4492 (Vignesh)<br><br> Email: leafybitescorp@gmail.com<br><br>
+              50 Nanyang Walk, 639929 Singapore
+            </p>
+          </div>
+        </div>
+    </div>
+  
+    <br>Copyright &copy; Leafy Bites 2023 <br> All rights reserved.<br><br>
+    <form action="adminlogin.php" method="post">
+      <input type="hidden" id="hidden" name="hidden" value="20" />
+    </form>
   </footer>
 </body>
 

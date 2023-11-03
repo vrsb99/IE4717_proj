@@ -90,7 +90,6 @@
         // Get all categories
         $query = "SELECT * FROM category";
         $categories = $db->query($query);
-
         if (isset($categories)) {
           echo '<div class="leftcolumn">
                 <nav class="sidenav">
@@ -123,12 +122,11 @@
             while ($catrow = $categories->fetch_assoc()) {
               $cat_id = $catrow['categoryid'];
               $cat_name = $catrow['name'];
-              echo '<h2 style="font-size:xx-large;margin-right:150px" id="'.$cat_id.'">'.$cat_name.'</h2>';
-              echo '<form action="editable_items.php" method="post">
+              echo '<h2 style="font-size:xx-large;margin-right:180px" id="'.$cat_id.'">'.$cat_name.'</h2>';
+              echo '<form action="editable_items.php" method="post" style="text-align:center">
               <input type="hidden" name="category_id" value="'.$cat_id.'">
-              <button type="submit" class="addNewItemButton" style="margin-bottom: 100px;">Add New Item</button>
-              </form><br><br>
-              <div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">';
+              <button type="submit" class="addNewItemButton" style="margin-right:350px">Add New Item</button>
+              </form><br><br>';
 
               // Get all items in the category
               $query = "SELECT * FROM items WHERE categoryid = ".$cat_id;
@@ -136,25 +134,26 @@
               $num_items = $items->num_rows;
               
               if (isset($items)) {
+                $itemCounter = 0;
                 while ($itemrow = $items->fetch_assoc()) {
+                  if ($itemCounter % 3 == 0) {
+                    echo '<div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">';
+                  }
                     $item_id = $itemrow["itemid"];
                     $item_name = $itemrow["name"];
                     $item_description = $itemrow["description"];
-
+                    $picture = "./img/".$itemrow["image"];
                     // Get all sizes for the item
                     $query = "SELECT * FROM sizes WHERE itemid = ".$item_id;
                     $sizes = $db->query($query);
 
-                    echo '<div class="box">  
-                    <div id="verticalflex">
-                    
-                        <img src="./img/roastchicken.jpg" width=200 height=200 alt="McChicken">
-                        <div class="flexcontainer" style="background-color: #e3f0e7">
-                        <div id="verticalflex">
-                        <p style="font-size: 20px">
+                    echo '<div class="box" style="background-color:#ccd8cf">  
+                          <div id="verticalflex">
+                          <img src='.$picture.' alt="McChicken">
+                          <p style="font-size: 20px">
                             <b>'.$item_name.'</b> <br>
                             '.wordwrap($item_description, 30, "<br>").'
-                        </p>';
+                          </p>';
 
                     if (isset($sizes)) {
                       while ($sizerow = $sizes->fetch_assoc()) {
@@ -164,30 +163,82 @@
                       }
                   } 
                   echo '<div>
-                        <form action="editable_items.php" method="post">
-                        <input type="hidden" name="item_id" value="'.$item_id.'">
-                        <input type="hidden" name="category_id" value="'.$cat_id.'">
-                        <button type="submit" class="editButton">Edit Item</button>
-                        </form>
-                        <form action="'.$_SERVER['PHP_SELF'].'" method="post">
-                        <input type="hidden" name="delete_item_id" value="'.$item_id.'">
-                        <button type="submit" class="editButton">Delete Item</button>
-                        </form>
-              </div>
-                </div>
+                  <form action="editable_items.php" method="post">
+                  <input type="hidden" name="item_id" value="'.$item_id.'">
+                  <input type="hidden" name="category_id" value="'.$cat_id.'">
+                  <button type="submit" class="editButton">Edit Item</button>
+                  </form>
+                  <form action="'.$_SERVER['PHP_SELF'].'" method="post">
+                  <input type="hidden" name="delete_item_id" value="'.$item_id.'">
+                  <button type="submit" class="editButton">Delete Item</button>
+                  </form>
                   </div>
-                    </div>
-                      </div>';
+                      </div>   <!-- Close vertical flex div -->
+                        </div> <!-- Close box div -->';
+                  $itemCounter++;
+
+                  $remainder = $itemCounter % 3;
+                  if ($itemCounter == $items->num_rows) {
+                    if($remainder !=0)
+                    {
+                      for ($x =2 ; $x>=$remainder ;$x--){
+                        echo '<div class="box"></div>';
+                      }
+                    }
+                    
+                  }
+
+                  if ($itemCounter % 3 == 0 || $itemCounter == $items->num_rows) { 
+                    // Close flexcontainer div if 3 items have been displayed or if it is the last item
+                      echo '</div>';
+                    }  
                 }
-              }
-              echo '</div>';
+              };
+             
             }
           }
           echo '</div>';
         ?>
         
-  <footer>
-    <div id="footer"></div>
+<!-- Footer for all pages -->
+<footer>
+    <section class="semicircle">
+      <img src="./img/leafylogo.png"  alt="Leafy Bites Logo" >
+      <h2 style="color: #FFFFFF; font-size:30px">Leafy Bites Proudly Present</h2>
+    </section>
+  
+    <br><br><br>
+    <div class="flexcontainer" >
+      
+        <div class="box">  
+          <div id="verticalflex" > <h3>Services</h3><br><br>
+            <p style="text-align: center; font-size: 15px;"> We offer delivery too ! <br> Singapore Islandwide <br><br>
+              Mon-Fri: 10am - 8pm <br>
+              Sat-Sun: 11am - 9pm
+            </p>
+          </div>
+        </div>
+  
+     
+        <div class="box">
+          <div id="verticalflex" > <h3>Subscribe to Leafy Bites now to get our special offers !</h3>
+            <input style="border: none; border-bottom:solid 2px #115448; background-color: #e3f0e7; text-align: center;" type=email placeholder="Email address">
+          </div>
+        </div>
+  
+        <div class="box">
+          <div id="verticalflex" > <h3> Contact Us </h3>
+            <p style="text-align: center; font-size: 15px;"> HP: +65 8188-6905 (Vilan)<br> HP: +65 8683-4492 (Vignesh)<br><br> Email: leafybitescorp@gmail.com<br><br>
+              50 Nanyang Walk, 639929 Singapore
+            </p>
+          </div>
+        </div>
+    </div>
+  
+    <br>Copyright &copy; Leafy Bites 2023 <br> All rights reserved.<br><br>
+    <form action="adminlogin.php" method="post">
+      <input type="hidden" id="hidden" name="hidden" value="20" />
+    </form>
   </footer>
 </body>
 

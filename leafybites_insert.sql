@@ -2,19 +2,19 @@ USE leafybites;
 
 INSERT INTO category (categoryid, name) VALUES 
     (1, "Salad Bowls"),
-    (2, "Sandwiches"),
+    (2, "Burgers"),
     (3, "Beverages");
 
 INSERT INTO items (itemid, categoryid, name, description, image) VALUES
-    (1, 1, "Caesar Salad", "Romaine lettuce, croutons, parmesan cheese, and caesar dressing", "caesar_salad.jpg"),
-    (2, 1, "Greek Salad", "Romaine lettuce, tomatoes, cucumbers, red onions, feta cheese, and greek dressing", "greek_salad.jpg"),
-    (3, 1, "Spinach Salad", "Spinach, tomatoes, cucumbers, red onions, and balsamic vinaigrette", "spinach_salad.jpg"),
-    (4, 2, "BLT", "Bacon, lettuce, tomato, and mayonnaise on white bread", "blt.jpg"),
-    (5, 2, "Ham and Cheese", "Ham, cheese, lettuce, tomato, and mayonnaise on white bread", "ham_and_cheese.jpg"),
-    (6, 2, "Turkey and Cheese", "Turkey, cheese, lettuce, tomato, and mayonnaise on white bread", "turkey_and_cheese.jpg"),
-    (7, 3, "Coke", "Coca-Cola", "coke.jpg"),
-    (8, 3, "Diet Coke", "Diet Coca-Cola", "diet_coke.jpg"),
-    (9, 3, "Sprite", "Sprite", "sprite.jpg");
+    (1, 1, "Tuna Salad", "Romaine lettuce, croutons, parmesan cheese, and caesar dressing", "tuna_salad.jpg"),
+    (2, 1, "Fruit Salad", "Romaine lettuce, tomatoes, cucumbers, red onions, feta cheese, and greek dressing", "fruit_salad.jpg"),
+    (3, 1, "Veggie Salad", "Spinach, tomatoes, cucumbers, red onions, and balsamic vinaigrette", "veggie_salad.jpg"),
+    (4, 2, "Salmon Burger", "Bacon, lettuce, tomato, and mayonnaise on white bread", "salmon_burger.jpg"),
+    (5, 2, "Chicken Burger", "Ham, cheese, lettuce, tomato, and mayonnaise on white bread", "chicken_burger.jpg"),
+    (6, 2, "Cheese Burger", "Turkey, cheese, lettuce, tomato, and mayonnaise on white bread", "cheeseburger.jpg"),
+    (7, 3, "Coke", "Coca-Cola", "cola.jpg"),
+    (8, 3, "Pepsi", "Diet Coca-Cola", "pepsi.jpg"),
+    (9, 3, "Milk", "Sprite", "soy_milk.jpg");
 
 INSERT INTO sizes (sizeid, itemid, name, price, quantity) VALUES
     (1, 1, "Regular", 5.00, 10),

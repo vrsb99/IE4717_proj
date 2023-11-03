@@ -113,6 +113,7 @@
                     $item_id = (int) $itemrow["itemid"];
                     $item_name = $itemrow["name"];
                     $item_description = $itemrow["description"];
+                    $picture = "./img/".$itemrow["image"];
 
                     // Get all sizes for the item
                     $query = "SELECT sizeid, name, price, quantity FROM sizes WHERE itemid = ? AND (quantity IS NULL OR quantity != 0)";
@@ -121,15 +122,15 @@
                     $stmt->execute();
                     $sizes = $stmt->get_result();
                     if ($sizes->num_rows > 0) {
-                    echo '<div class="box">  
-                    <div id="verticalflex">
-                        <img src="./img/tuna_salad.jpg" width=200 height=200 alt="McChicken">
-                        <p style="font-size: 20px">
-                            <b>'.$item_name.'</b> <br>
-                            '.wordwrap($item_description, 30, "<br>").'
-                        </p>
-                        <form action="'.htmlspecialchars($_SERVER['PHP_SELF']).'" method="post">';
-                        echo '<select name="size_id">';
+                    echo '<div class="box" style="background-color:#ccd8cf">  
+                          <div id="verticalflex">
+                          <img src= '.$picture.' alt="Default">
+                          <p style="font-size: 20px">
+                              <b>'.$item_name.'</b> <br>
+                              '.wordwrap($item_description, 30, "<br>").'
+                          </p>
+                          <form action="'.htmlspecialchars($_SERVER['PHP_SELF']).'" method="post">';
+                          echo '<select name="size_id">';
 
                         if (isset($sizes)) {
                             while ($sizerow = $sizes->fetch_assoc()) {
@@ -145,7 +146,6 @@
                     }
                        
                         echo '</select>
-
                               <button type="submit" class="addButton" onclick="notify()"> Add to Cart</button>
                         </form>';
                         $itemCounter++; // Increment counter only if item has sizes to display
@@ -154,10 +154,12 @@
                          ' ;
                   $remainder = $itemCounter % 3;
                   if ($itemCounter == $items->num_rows) {
+                    if ($remainder != 0){
                     for ($x =2 ; $x>=$remainder ;$x--){
                       echo '<div class="box"></div>';
                     }
                   }
+                }
 
                   }
                   if ($itemCounter % 3 == 0 || $itemCounter == $items->num_rows) { 
