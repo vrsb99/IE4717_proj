@@ -6,6 +6,19 @@
   <link rel="stylesheet" href="stylesheet.css">
   <script src="loadPage.js"></script>  
   <script src="functionality.php"></script>
+  <script>
+    function validateImageFile(){
+      var fileName = document.getElementById("fileToUpload").value;
+      alert(fileName);
+      var idxDot = fileName.lastIndexOf(".") + 1;
+      var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+      if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
+          //TO DO
+      } else{
+          alert("Only jpg/jpeg and png files are allowed!");
+      }   
+    }
+  </script>
   <div class="wrapper">
     <header>
       <div class="center">
@@ -17,10 +30,7 @@
         <a href="editable_menu.php"> << Back to Admin Menu</a>
 
         <!-- Need to add a session control to lock this Logout button before logging in -->
-        <div style="float:right">
-          <button id="logoutbutton" name="logoutbutton" class="button" onclick="logout()" hidden> Logout </button>
-          <a  href="checkout.php">Cart</a>
-        </div>
+
     </nav>
     </header>
   </div>
@@ -39,9 +49,9 @@
     exit();
   }
 
+ 
   if (isset($_POST['submit'])) {
-    $cat_id = $_POST['category_id'];
-    
+
     include "dbconnect.php";
 
     // Handle new or existing items
@@ -114,15 +124,15 @@
       $item_description = $row['description'];
 
       echo '
-      <div class="flexcontainer" >
-      <form action='.$_SERVER['PHP_SELF'].' method="post">
+      <div class="flexcontainer">
+      <form action='.$_SERVER['PHP_SELF'].' method="post" enctype="multipart/formdata">
       <input type="hidden" name="item_id" value="'.$item_id.'">
       <input type="hidden" name="category_id" value="'.$cat_id.'">
       <label for="item_name" style="font-size: large;">Item Name</label><br>
       <input type="text" name="item_name" required value="'.$item_name.'" ><br><br>
       <label for="item_description" style="font-size: large;">Description</label><br>
       <input type="text" name="item_description" required value="'.$item_description.'" ><br><br>
-      <input type="file"><br><br>
+      <input id="fileToUpload" name="fileToUpload"type="file" accept="image/*" onchange="validateImageFile()"><br><br><br>
       <table border="0">
       <caption style="font-size:xx-large;margin-bottom:20px;color:#115448"><b>Size Details</b></caption>
       <thead>
@@ -163,13 +173,14 @@
 
       echo '
       <div class="flexcontainer" >
-      <form action='.$_SERVER['PHP_SELF'].' method="post">
+      <form action='.$_SERVER['PHP_SELF'].' method="post" enctype="multipart/formdata">
       <input type="hidden" name="category_id" value="'.$cat_id.'">
       <label for="item_name" style="font-size: large;">Item Name</label><br>
       <input type="text" required name="item_name" ><br><br>
       <label for="item_description" style="font-size: large;">Description</label><br>
       <input type="text" required name="item_description" ><br><br>
-      <input type="file">
+      <label for="newfood" style="font-size: large;">Image</label><br>
+      <input id="fileName" name="image" type="file" accept = "image/*"  onchange="validateImageFile()">
       <table border="0">
       <caption style="font-size:xx-large;margin-bottom:20px;color:#115448"><b>Size Details</b></caption>
       <thead>
@@ -187,8 +198,8 @@
         </tr>
       </tbody>
       </table>
-      <input type="button" name="Add" value="Add Size" onclick="addSizeRow()" style="font-size: large;" class="button">
-      <input type="submit" name="submit" value="Add New Item" style="font-size: large;" class="button">
+      <input type="button" name="Add" value="Add Size" onclick="addSizeRow()" style="font-size: large; margin-left:200px; margin-top:20px;width:200px" class="button">
+      <input type="submit" name="submit" value="Done Edit" style="font-size: large; width:200px" class="button">
       </form>
       <script type="text/javascript" src="editable_items.js"></script>
       </div>';
