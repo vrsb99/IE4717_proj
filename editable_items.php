@@ -122,6 +122,7 @@
       <input type="text" name="item_name" required value="'.$item_name.'" ><br><br>
       <label for="item_description" style="font-size: large;">Description</label><br>
       <input type="text" name="item_description" required value="'.$item_description.'" ><br><br>
+      <input type="file"><br><br>
       <table border="0">
       <caption style="font-size:xx-large;margin-bottom:20px;color:#115448"><b>Size Details</b></caption>
       <thead>
@@ -168,6 +169,7 @@
       <input type="text" required name="item_name" ><br><br>
       <label for="item_description" style="font-size: large;">Description</label><br>
       <input type="text" required name="item_description" ><br><br>
+      <input type="file">
       <table border="0">
       <caption style="font-size:xx-large;margin-bottom:20px;color:#115448"><b>Size Details</b></caption>
       <thead>
