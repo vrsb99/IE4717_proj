@@ -201,7 +201,7 @@
         ?>
         
 <!-- Footer for all pages -->
-<footer>
+<!-- <footer>
     <section class="semicircle">
       <img src="./img/leafylogo.png"  alt="Leafy Bites Logo" >
       <h2 style="color: #FFFFFF; font-size:30px">Leafy Bites Proudly Present</h2>
@@ -239,7 +239,7 @@
     <form action="adminlogin.php" method="post">
       <input type="hidden" id="hidden" name="hidden" value="20" />
     </form>
-  </footer>
+  </footer> -->
 </body>
 
 </html>

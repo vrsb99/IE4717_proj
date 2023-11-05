@@ -4,17 +4,6 @@ include "session_start.php";
 
 if (isset($_POST["submit"])) {
 
-    $to      = 'f31ee@localhost';
-    $subject = 'Order Confirmation Letter';
-    $message = 'Hello!
-    Thank you so much for your business! We will get started on your order right away! In the meantime, if any questions come up, please do not hesitate to message us.';
-    $headers = 'From: leafybites@localhost' . "\r\n" .
-    'Reply-To: leafybites@localhost' . "\r\n" .
-    'X-Mailer: PHP/' . phpversion();
-
-    mail($to, $subject, $message, $headers,'-leafybites@localhost');
-    echo ("mail sent to : ".$to);
-
     @ $db = new mysqli("localhost", "root", "", "leafybites");
 
     if (mysqli_connect_errno()) {
@@ -53,6 +42,34 @@ if (isset($_POST["submit"])) {
     }
     
     unset($_SESSION["cart"]);
+
+    $to      = 'f31ee@localhost';
+    $subject = 'Order Confirmation Letter';
+    $message = 'Hello!
+
+______________________________________________________________________________________________________________________
+                        
+                                Your order number is '.$orderid.'
+______________________________________________________________________________________________________________________
+
+
+Thank you so much for your business! We will get started on your order right away! 
+
+In the mean time, if any questions come up, please do not hesitate to message us.
+
+From
+Leafy Bites Management';
+    
+    
+    
+    $headers = 'From: leafybites@localhost' . "\r\n" .
+    'Reply-To: leafybites@localhost' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+
+    mail($to, $subject, $message, $headers,'-leafybites@localhost');
+    echo ("mail sent to : ".$to);
+
+
     // header("location: menu.php");
     // exit;
 

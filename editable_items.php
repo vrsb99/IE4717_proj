@@ -49,9 +49,8 @@
     exit();
   }
 
- 
   if (isset($_POST['submit'])) {
-
+    $cat_id = $_POST['category_id'];
     include "dbconnect.php";
 
     // Handle new or existing items
@@ -61,7 +60,7 @@
         $item_description = $_POST['item_description'];
         
         // Update existing item details
-        $stmt = $db->prepare("UPDATE items SET name=?, description=? WHERE itemid=?");
+        $stmt = $db->prepare( "UPDATE items SET name=?, description=? WHERE itemid=?");
         $stmt->bind_param("ssi", $item_name, $item_description, $item_id);
         $stmt->execute();
     } else {
@@ -69,7 +68,7 @@
         $item_description = $_POST['item_description'];
         
         // Insert new item and get its ID
-        $stmt = $db->prepare("INSERT INTO items (categoryid, name, description) VALUES (?, ?, ?)");
+        $stmt = $db->prepare( "INSERT INTO items (categoryid, name, description) VALUES (?, ?, ?)");
         $stmt->bind_param("iss", $cat_id, $item_name, $item_description);
         $stmt->execute();
         $item_id = $db->insert_id;
@@ -110,7 +109,8 @@
         }
     }
     header("location: editable_menu.php") ;
-  } elseif (isset($_POST['item_id'])) {
+  } 
+  elseif (isset($_POST['item_id'])) {
       
       include "dbconnect.php";
 
@@ -205,9 +205,10 @@
       </div>';
     }
     ?>
-  <footer>
+    
+  <!-- <footer>
     <div id="footer"></div>
-  </footer>
+  </footer> -->
 </body>
 
 </html>
