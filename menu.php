@@ -14,6 +14,19 @@
   function notify(){
       alert("Item added into cart.")
     }
+    window.onscroll = function() {
+    var footer = document.querySelector('footer');
+    var sidenav = document.querySelector('.sidenav');
+    var footerTop = footer.offsetTop;
+    var scrolled = window.scrollY + window.innerHeight;
+    // console.log(window.scrollY,window.innerHeight,scrolled,footerTop);
+    // If the scrolled distance is greater than the footer top, adjust sidenav
+    if (scrolled > footerTop) {
+        sidenav.style.bottom = (scrolled - footerTop) + 'px';
+    } else {
+        sidenav.style.bottom = '0';
+    }
+  };
   </script>
 </head>
 
@@ -80,7 +93,7 @@
 
         if (isset($categories)) {
           echo '<div class="leftcolumn">
-                <nav class="sidenav">
+                <nav class="sidenav"> 
                   <ul>';
           while ($catrow = $categories->fetch_assoc()) {
             $cat_id = $catrow['categoryid'];
