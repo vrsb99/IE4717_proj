@@ -139,17 +139,16 @@
                   if ($itemCounter % 3 == 0) {
                     echo '<div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">';
                   }
-                    $item_id = $itemrow["itemid"];
+                    $item_id = (int) $itemrow["itemid"];
                     $item_name = $itemrow["name"];
                     $item_description = $itemrow["description"];
-                    $picture = "./img/".$itemrow["image"];
-                    // Get all sizes for the item
+                    $picture = is_null($itemrow["image"]) ? "./img/default.jpg" : "./img/".$itemrow["image"];
                     $query = "SELECT * FROM sizes WHERE itemid = ".$item_id;
                     $sizes = $db->query($query);
 
                     echo '<div class="box" style="background-color:#ccd8cf">  
                           <div id="verticalflex">
-                          <img src='.$picture.' alt="McChicken">
+                          <img src='.$picture.' alt="Menu Image">
                           <p style="font-size: 20px">
                             <b>'.$item_name.'</b> <br>
                             '.wordwrap($item_description, 30, "<br>").'
@@ -173,19 +172,16 @@
                   <button type="submit" class="editButton">Delete Item</button>
                   </form>
                   </div>
-                      </div>   <!-- Close vertical flex div -->
-                        </div> <!-- Close box div -->';
+                  </div>   <!-- Close vertical flex div -->
+                  </div> <!-- Close box div -->';
                   $itemCounter++;
-
-                  $remainder = $itemCounter % 3;
                   if ($itemCounter == $items->num_rows) {
-                    if($remainder !=0)
-                    {
-                      for ($x =2 ; $x>=$remainder ;$x--){
+                    $remainder = $itemCounter % 3;
+                    if ($remainder != 0) {
+                      for ($x = 3 - $remainder; $x > 0; $x--) {
                         echo '<div class="box"></div>';
                       }
                     }
-                    
                   }
 
                   if ($itemCounter % 3 == 0 || $itemCounter == $items->num_rows) { 
@@ -193,8 +189,7 @@
                       echo '</div>';
                     }  
                 }
-              };
-             
+              }
             }
           }
           echo '</div>';

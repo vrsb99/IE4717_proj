@@ -113,7 +113,7 @@
                     $item_id = (int) $itemrow["itemid"];
                     $item_name = $itemrow["name"];
                     $item_description = $itemrow["description"];
-                    $picture = "./img/".$itemrow["image"];
+                    $picture = is_null($itemrow["image"]) ? "./img/default.jpg" : "./img/".$itemrow["image"];
 
                     // Get all sizes for the item
                     $query = "SELECT sizeid, name, price, quantity FROM sizes WHERE itemid = ? AND (quantity IS NULL OR quantity != 0)";
@@ -124,7 +124,7 @@
                     if ($sizes->num_rows > 0) {
                     echo '<div class="box" style="background-color:#ccd8cf">  
                           <div id="verticalflex">
-                          <img src= '.$picture.' alt="Default">
+                          <img src= '.$picture.' alt="Menu Image">
                           <p style="font-size: 20px">
                               <b>'.$item_name.'</b> <br>
                               '.wordwrap($item_description, 30, "<br>").'
@@ -147,30 +147,25 @@
                        
                         echo '</select>
                               <button type="submit" class="addButton" onclick="notify()"> Add to Cart</button>
-                        </form>';
+                        </form>
+                        </div>
+                        </div>';
                         $itemCounter++; // Increment counter only if item has sizes to display
-                  echo '  </div>
-                          </div>
-                         ' ;
-                  $remainder = $itemCounter % 3;
-                  if ($itemCounter == $items->num_rows) {
-                    if ($remainder != 0){
-                    for ($x =2 ; $x>=$remainder ;$x--){
-                      echo '<div class="box"></div>';
-                    }
-                  }
-                }
-
+                        if ($itemCounter == $items->num_rows) {
+                          $remainder = $itemCounter % 3;
+                          if ($remainder != 0) {
+                            for ($x = 3 - $remainder; $x > 0; $x--) {
+                              echo '<div class="box"></div>';
+                            }
+                          }
+                        }
                   }
                   if ($itemCounter % 3 == 0 || $itemCounter == $items->num_rows) { 
                   // Close flexcontainer div if 3 items have been displayed or if it is the last item
                     echo '</div>';
                   }            
                 }
-
               }
-              ;
-
             }
           }
           echo '</div>';
