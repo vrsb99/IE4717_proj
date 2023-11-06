@@ -7,14 +7,14 @@ INSERT INTO category (categoryid, name) VALUES
 
 INSERT INTO items (itemid, categoryid, name, description, image) VALUES
     (1, 1, "Tuna Salad", "Romaine lettuce, croutons, parmesan cheese, and caesar dressing", "tuna_salad.jpg"),
-    (2, 1, "Fruit Salad", "Romaine lettuce, tomatoes, cucumbers, red onions, feta cheese, and greek dressing", "fruit_salad.jpg"),
-    (3, 1, "Veggie Salad", "Spinach, tomatoes, cucumbers, red onions, and balsamic vinaigrette", "veggie_salad.jpg"),
-    (4, 2, "Salmon Burger", "Bacon, lettuce, tomato, and mayonnaise on white bread", "salmon_burger.jpg"),
-    (5, 2, "Chicken Burger", "Ham, cheese, lettuce, tomato, and mayonnaise on white bread", "chicken_burger.jpg"),
-    (6, 2, "Cheese Burger", "Turkey, cheese, lettuce, tomato, and mayonnaise on white bread", "cheeseburger.jpg"),
+    (2, 1, "Fruit Salad", "A taste of paradise in every bite. Our refreshing blend of the season's sweetest fruits, expertly diced and drizzled with a light citrus dressing.", "fruit_salad.jpg"),
+    (3, 1, "Veggie Salad", "Our crisp, garden-fresh salad bursting with a rainbow of vegetables, tossed in a zesty vinaigrette. A healthy and flavorful masterpiece for those who crave freshness on their plate.", "veggie_salad.jpg"),
+    (4, 2, "Salmon Burger", "A seafood lover's delight.", "salmon_burger.jpg"),
+    (5, 2, "Chicken Burger", "Our tender, seasoned chicken patty, impeccably grilled, and nestled in a warm, toasted bun. Accompanied by a medley of fresh toppings for a taste sensation that's clucking good!", "chicken_burger.jpg"),
+    (6, 2, "Cheese Burger", "A classic masterpiece of flavors. Our juicy, perfectly grilled beef patty, topped with melted cheese, nestled in a soft, toasted bun. Served with all the fixings for an unforgettable, mouthwatering experience", "cheeseburger.jpg"),
     (7, 3, "Coke", "Coca-Cola", "cola.jpg"),
-    (8, 3, "Pepsi", "Diet Coca-Cola", "pepsi.jpg"),
-    (9, 3, "Milk", "Sprite", "soy_milk.jpg");
+    (8, 3, "Pepsi", "Pepsi", "pepsi.jpg"),
+    (9, 3, "Milk", "Our milk is the essence of wholesome goodness, a timeless ingredient that nourishes and delights in every dish it touches.", "soy_milk.jpg");
 
 INSERT INTO sizes (sizeid, itemid, name, price, quantity) VALUES
     (1, 1, "Regular", 5.00, 10),

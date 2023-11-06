@@ -72,7 +72,7 @@
 
   <!-- Daily Specials -->
 
-  <h2 style="padding-top: 50px; font-size:xx-large;">Try Our Daily Specials </h2>
+  <h2 style="padding-top: 50px; font-size:xx-large;">Try Our Chefs Specials </h2>
   <div class="flexcontainer" style="background-color: #e3f0e7; margin-top:0px">
 
       <div class="box" >  
@@ -85,7 +85,7 @@
 
   
       <div class="box">
-        <div id="verticalflex" > <img src="./img/tuna_salad.jpg" width = 200, height="200" alt="McChicken">
+        <div id="verticalflex" > <img src="./img/tuna_salad.jpg" width = 200, height="200" alt="Tuna Salad">
           <p style="text-align: center;font-size: 20px"> <b>Pizza Rice</b> <br>
             All the flavours of a vegetarian supreme, <br>baked into crispy, chewy rice.
           </p>
@@ -93,7 +93,7 @@
       </div>
 
       <div class="box">
-        <div id="verticalflex" > <img src="./img/roastchicken.jpg" width = 200, height="200" alt="McChicken">
+        <div id="verticalflex" > <img src="./img/veggie_salad.jpg" width = 200, height="200" alt="Veggie Salad">
           <p style="text-align: center;font-size: 20px"> <b>Roast Tikka Chicken</b> <br>
             A new spin on the classic roast chook. <br>Highly recommended by our regulars!
           </p>

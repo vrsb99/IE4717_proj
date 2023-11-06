@@ -28,6 +28,10 @@ $result = $db->query($sql);
 if (!$result) 
 	echo "Your query failed.";
 else
-	$script = '<script>alert("Welcome ' . $username . '. You are now registered !"); window.location.href = "index.php";</script>';
+	$script = '<script>alert("Welcome ' . $username . '. You are now registered! You can now login to Leafy Bites with your details."); window.location.href = "login.php";</script>';
 	echo $script;
+
+	
+
+
 ?>

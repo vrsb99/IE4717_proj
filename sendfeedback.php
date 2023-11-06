@@ -11,11 +11,6 @@
     $stmt->bind_param("is", $customerid, $feedback);
     $stmt->execute();
 
-    $script = '<script> alert("Thank you for your valuable feedback. We love hearing from you!")</script>';
-    echo $script;
-    $script = '<script> location.href="index.php" </script>';
-    echo $script ; 
-
     $to      = 'leafybites@localhost';
     $subject = 'Feedback from customer';
     $message = $feedback;
@@ -27,6 +22,9 @@
     mail($to, $subject, $message, $headers,'-f31ee@localhost');
     echo ("mail sent to : ".$to);
 
-    header("location: menu.php");
+    $script = '<script> alert("Thank you for your valuable feedback. We love hearing from you!")</script>';
+    echo $script; 
+    
+    header("location: index.php");
     exit;
 ?>

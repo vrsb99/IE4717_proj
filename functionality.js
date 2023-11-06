@@ -1,3 +1,5 @@
+int = 0;
+
 // Changing Past Orders to Login if not yet login
 function changelink(){
     var link = document.getElementById('changelink');
@@ -30,3 +32,37 @@ function exit() {
        location.href = "index.php";
     }
 }
+
+function validateSubscribeEmail() {
+    
+    var email = document.getElementById("subscribeemail");
+    var form = document.getElementById('subscribeform');
+
+
+    form.addEventListener('submit', validateForm);
+
+
+    var emailregexp = /^[\w.-]+@([\w]+\.){1,3}[\w]{2,3}$/;
+    var search = email.value.search(emailregexp);
+    
+    if (search != 0) {
+        alert("Wrong email format.\nPlease enter email in the format of:\nvigneshr002@e.ntu.edu.sg");
+        email.focus();
+        email.select();
+        int = 1;
+    }
+    else int =0;
+    
+    function validateForm(event) {
+        if (validate(int)) {
+        event.preventDefault();
+    }
+}
+
+    function validate(int) {
+        return true ? int == 1 : false
+    }
+}
+
+
+

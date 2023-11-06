@@ -2,7 +2,6 @@
     $to      = 'f31ee@localhost';
     $subject = 'You have subscribed to Leafy Bites!';
     $message = 'Hello ! 
-    
 Hurray ! Subscribing to our newsletter was a very SMART decision. 
 We will be intouch regularly with up to date news, offers, and much more.
 In the mean time, find out more about us and our expert friends and the inspiration behind our restaurant!

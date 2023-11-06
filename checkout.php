@@ -52,9 +52,13 @@
     
     if (!empty($_SESSION['valid_user'])){
       echo '<script> remove() </script>';
+      $name = $_SESSION['username'];
+      $email = $_SESSION['valid_user'];
     }
     else {
       echo '<script> changelink() </script>';
+      $name =" ";
+      $email = " ";
     }
     
     if (isset($_GET['empty'])) {
@@ -162,10 +166,10 @@
 
       <div class="customer_info">
       <label class="labels" for="name">*Name:</label>
-      <input class="input-field" type="text" id="name" name="name"  placeholder="Enter your name here"><br><br>
+      <input class="input-field" type="text" id="name" name="name"  placeholder="Enter your name here" value='.$name.'><br><br>
 
       <label for="email">*E-mail:</label>
-      <input type="email" id="email" name="email" placeholder="Enter your Email-ID here"><br><br>      
+      <input type="email" id="email" name="email" placeholder="Enter your Email-ID here" value='.$email.'><br><br>      
       </div>
       <input type="submit" name="submit" id="submit" value="Place Order" style="font-size: large; margin-left:250px; width: 300px" class="button" onclick="validation(0)">
 
