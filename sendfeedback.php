@@ -13,4 +13,18 @@
     echo $script;
     $script = '<script> location.href="index.php" </script>';
     echo $script ; 
+
+    $to      = 'leafybites@localhost';
+    $subject = 'Feedback from customer';
+    $message = $feedback;
+
+    $headers = 'From: f31ee@localhost' . "\r\n" .
+    'Reply-To: f31ee@localhost' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+
+    mail($to, $subject, $message, $headers,'-f31ee@localhost');
+    echo ("mail sent to : ".$to);
+
+    header("location: menu.php");
+    exit;
 ?>

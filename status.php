@@ -41,12 +41,33 @@ if (isset($_POST["submit"])) {
         removeOrderedItem($db, $size_id, $quantity);
     }
     
+    $orderDetails = "Order Details:\r\n";
+
+    foreach ($size_and_quantity as $size_id => $quantity) {
+        $query = "SELECT items.name, sizes.name as size_name, sizes.price 
+                FROM sizes 
+                JOIN items ON sizes.itemid = items.itemid
+                WHERE sizes.sizeid = ".$size_id;
+        $result = $db->query($query);
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $itemName = $row['name'];
+            $sizeName = $row['size_name'];
+            $price = $row['price'];
+
+            // Calculate the total price for the item
+            $totalPrice = $price * $quantity;
+
+            // Append each item's details to the order details message
+            $orderDetails .= "$itemName ($sizeName) x $quantity @ $" . number_format($price, 2) . " each - $" . number_format($totalPrice, 2) . "\r\n";
+        }
+    }
+    
     unset($_SESSION["cart"]);
 
     $to      = 'f31ee@localhost';
     $subject = 'Order Confirmation Letter';
-    $message = 'Hello!
-
+    $message = 'Hello '.$email.',
 ______________________________________________________________________________________________________________________
                         
                                 Your order number is '.$orderid.'
@@ -56,11 +77,12 @@ ________________________________________________________________________________
 Thank you so much for your business! We will get started on your order right away! 
 
 In the mean time, if any questions come up, please do not hesitate to message us.
-
-From
-Leafy Bites Management';
+';
     
-    
+    $message .= "\r\n" . $orderDetails;
+    $message .= "\r\nTotal Order Cost: $" . calculateTotalOrderCost($size_and_quantity, $db) . "\r\n";
+    $message .= "\r\nPlease keep this email for your records.\r\n";
+    $message .= "\r\nFrom,\nLeafy Bites Management";
     
     $headers = 'From: leafybites@localhost' . "\r\n" .
     'Reply-To: leafybites@localhost' . "\r\n" .
@@ -124,7 +146,19 @@ function removeOrderedItem($db, $size_id, $quantity) {
     $result = $db->query($query);
 }
 
-
+function calculateTotalOrderCost($size_and_quantity, $db) {
+    $total = 0;
+    foreach ($size_and_quantity as $size_id => $quantity) {
+        $query = "SELECT price FROM sizes WHERE sizeid = ".$size_id;
+        $result = $db->query($query);
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $price = $row['price'];
+            $total += $price * $quantity;
+        }
+    }
+    return number_format($total, 2);
+}
 ?>
 
 <!DOCTYPE html>

@@ -97,7 +97,7 @@
             echo "<td></td>";
             echo "<td></td>";
             echo "<td><b>Total</b></td>";
-            echo "<td><b>$total<b></td>";
+            echo "<td><b>$" . $total . "</b></td>";
             echo "</tr>";
             echo '</table>';
             echo '<br>';
