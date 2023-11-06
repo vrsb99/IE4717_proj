@@ -28,13 +28,18 @@ if (isset($_POST["submit"])) {
     $email = $_POST["email"];
     date_default_timezone_set("Asia/Singapore");
     $today = date("Y-m-d H:i:s");
-    $query = "INSERT INTO customers VALUES (NULL, '".$email."')";
-    $result = $db->query($query);
+    $stmt = $db->prepare("INSERT INTO customers (email) VALUES (?)");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
     $customerid = $db->insert_id;
+    $stmt->close();
 
-    $query = "INSERT INTO orders VALUES (NULL, ".$customerid.", '".$today."')";
-    $result = $db->query($query);
+
+    $stmt = $db->prepare("INSERT INTO orders (customerid, orderdate) VALUES (?, ?)");
+    $stmt->bind_param("is", $customerid, $today);
+    $stmt->execute();
     $orderid = $db->insert_id;
+    $stmt->close();
 
     foreach ($size_and_quantity as $size_id => $quantity) {
         insertOrderItem($db, $orderid, $size_id, $quantity);
@@ -44,11 +49,10 @@ if (isset($_POST["submit"])) {
     $orderDetails = "Order Details:\r\n";
 
     foreach ($size_and_quantity as $size_id => $quantity) {
-        $query = "SELECT items.name, sizes.name as size_name, sizes.price 
-                FROM sizes 
-                JOIN items ON sizes.itemid = items.itemid
-                WHERE sizes.sizeid = ".$size_id;
-        $result = $db->query($query);
+        $stmt = $db->prepare("SELECT items.name, sizes.name as size_name, sizes.price FROM sizes JOIN items ON sizes.itemid = items.itemid WHERE sizes.sizeid = ?");
+        $stmt->bind_param("i", $size_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
         if ($result) {
             $row = $result->fetch_assoc();
             $itemName = $row['name'];
@@ -116,8 +120,11 @@ In the mean time, if any questions come up, please do not hesitate to message us
 }
 
 function checkQuantity($db, $size_id, $quantity) {
-    $query = "SELECT quantity FROM sizes WHERE sizeid = ".$size_id;
-    $result = $db->query($query);
+    $stmt = $db->prepare("SELECT quantity FROM sizes WHERE sizeid = ?");
+    $stmt->bind_param("i", $size_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
     $row = $result->fetch_assoc();
     $quantity_in_stock = $row["quantity"];
     if (!is_null($quantity_in_stock) && $quantity > $quantity_in_stock) {
@@ -127,8 +134,10 @@ function checkQuantity($db, $size_id, $quantity) {
 }
 
 function insertOrderItem($db, $orderid, $size_id, $quantity) {
-    $query = "SELECT itemid, price FROM sizes WHERE sizeid = ".$size_id;
-    $result = $db->query($query);
+    $stmt = $db->prepare("SELECT itemid, price FROM sizes WHERE sizeid = ?");
+    $stmt->bind_param("i", $size_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
     $row = $result->fetch_assoc();
 
     $orderid = (int) $orderid;
@@ -137,20 +146,26 @@ function insertOrderItem($db, $orderid, $size_id, $quantity) {
     $size_id = (int) $size_id;
     $quantity = (int) $quantity;
 
-    $query = "INSERT INTO order_items VALUES (".$orderid.", ".$item_id.", ".$size_id.", ".$price.", ".$quantity.")";
-    $result = $db->query($query);
+    $stmt = $db->prepare("INSERT INTO order_items (orderid, itemid, sizeid, price, quantity) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("iiidi", $orderid, $item_id, $size_id, $price, $quantity);
+    $stmt->execute();
+    $stmt->close();
 }
 
 function removeOrderedItem($db, $size_id, $quantity) {
-    $query = "UPDATE sizes SET quantity = quantity - ".$quantity." WHERE sizeid = ".$size_id." AND quantity IS NOT NULL AND ".$quantity." <= quantity";
-    $result = $db->query($query);
+    $stmt = $db->prepare("UPDATE sizes SET quantity = quantity - ? WHERE sizeid = ? AND quantity IS NOT NULL AND ? <= quantity");
+    $stmt->bind_param("iii", $quantity, $size_id, $quantity);
+    $stmt->execute();
+    $stmt->close();    
 }
 
 function calculateTotalOrderCost($size_and_quantity, $db) {
     $total = 0;
     foreach ($size_and_quantity as $size_id => $quantity) {
-        $query = "SELECT price FROM sizes WHERE sizeid = ".$size_id;
-        $result = $db->query($query);
+        $stmt = $db->prepare("SELECT price FROM sizes WHERE sizeid = ?");
+        $stmt->bind_param("i", $size_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
         if ($result) {
             $row = $result->fetch_assoc();
             $price = $row['price'];
