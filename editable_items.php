@@ -8,8 +8,8 @@
   <script src="functionality.php"></script>
   <script>
     function validateImageFile(){
-      var fileName = document.getElementById("fileToUpload").value;
-      alert(fileName);
+      var fullPath = document.getElementById("fileToUpload").value;
+      var fileName = fullPath.split('\\').pop();
       var idxDot = fileName.lastIndexOf(".") + 1;
       var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
       if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
@@ -18,6 +18,15 @@
           alert("Only jpg/jpeg and png files are allowed!");
       }   
     }
+    function toggleImageUpload() {
+    var checkBox = document.getElementById("changeImageCheckbox");
+    var imageUploadDiv = document.getElementById("imageUpload");
+    if (checkBox.checked === true){
+        imageUploadDiv.style.display = "block";
+    } else {
+        imageUploadDiv.style.display = "none";
+    }
+}
   </script>
   <div class="wrapper">
     <header>
@@ -44,6 +53,7 @@
 <?php
 
   include "session_start.php";
+  include "dbconnect.php";
   if ($_SESSION['admin'] == false) {
     header('location: index.php');
     exit();
@@ -72,6 +82,30 @@
         $stmt->bind_param("iss", $cat_id, $item_name, $item_description);
         $stmt->execute();
         $item_id = $db->insert_id;
+    }
+
+    if (isset($_POST['changeImage']) && $_FILES['fileToUpload']['error'] != UPLOAD_ERR_NO_FILE) {
+      $uploadDirectory = "img/";
+      $fileName = basename($_FILES["fileToUpload"]["name"]);
+      $fileTmpName = $_FILES["fileToUpload"]["tmp_name"];
+      $fileType = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+      $allowedTypes = array('jpg', 'png', 'jpeg');
+      var_dump($fileName, $fileTmpName, $fileType);
+      if (in_array($fileType, $allowedTypes)) {
+        $newFileName = uniqid('', true) . "." . $fileType;
+        $uploadPath = $uploadDirectory . $newFileName;
+        if (move_uploaded_file($fileTmpName, $uploadPath)) {
+          $stmt = $db->prepare("UPDATE items SET image=? WHERE itemid=?");
+          $stmt->bind_param("si", $newFileName, $item_id);
+          $stmt->execute();
+          $stmt->close();
+          echo "File uploaded successfully as " . $newFileName;
+        } else {
+          echo "File upload failed.";
+        }
+      } else {
+        echo "Only jpg/jpeg and png files are allowed!";
+      }
     }
     
     // Handle sizes (both new and existing)
@@ -109,7 +143,7 @@
         }
     }
     header("location: editable_menu.php") ;
-  } 
+  }
   elseif (isset($_POST['item_id'])) {
       
       include "dbconnect.php";
@@ -117,22 +151,27 @@
       $item_id = $_POST['item_id'];
       $cat_id = $_POST['category_id'];
       
-      $query = "SELECT items.name as item_name, items.description, sizes.sizeid, sizes.name as size_name, sizes.price, sizes.quantity FROM items, sizes WHERE items.itemid = sizes.itemid AND items.itemid = ".$item_id;
+      $query = "SELECT items.name as item_name, items.image, items.description, sizes.sizeid, sizes.name as size_name, sizes.price, sizes.quantity FROM items, sizes WHERE items.itemid = sizes.itemid AND items.itemid = ".$item_id;
       $result = $db->query($query);
       $row = $result->fetch_assoc();
       $item_name = $row['item_name'];
       $item_description = $row['description'];
+      $image = "./img/".$row['image'];
 
       echo '
       <div class="flexcontainer">
-      <form action='.$_SERVER['PHP_SELF'].' method="post" enctype="multipart/formdata">
+      <form action='.$_SERVER['PHP_SELF'].' method="post" enctype="multipart/form-data">
       <input type="hidden" name="item_id" value="'.$item_id.'">
       <input type="hidden" name="category_id" value="'.$cat_id.'">
       <label for="item_name" style="font-size: large;">Item Name</label><br>
       <input type="text" name="item_name" required value="'.$item_name.'" ><br><br>
       <label for="item_description" style="font-size: large;">Description</label><br>
       <input type="text" name="item_description" required value="'.$item_description.'" ><br><br>
-      <input id="fileToUpload" name="fileToUpload"type="file" accept="image/*" onchange="validateImageFile()"><br><br><br>
+      <img src="'.$image.'" alt="Default" style="width:200px;height:200px;"/><br><br>
+      <input type="checkbox" name="changeImage" id="changeImageCheckbox" onclick="toggleImageUpload()"> Change image<br><br>
+      <div id="imageUpload" style="display:none;">
+      <input id="fileToUpload" name="fileToUpload"type="file" accept="image/*" onchange="validateImageFile()"><br><br>
+      </div>
       <table border="0">
       <caption style="font-size:xx-large;margin-bottom:20px;color:#115448"><b>Size Details</b></caption>
       <thead>
@@ -173,14 +212,15 @@
 
       echo '
       <div class="flexcontainer" >
-      <form action='.$_SERVER['PHP_SELF'].' method="post" enctype="multipart/formdata">
+      <form action='.$_SERVER['PHP_SELF'].' method="post" enctype="multipart/form-data">
       <input type="hidden" name="category_id" value="'.$cat_id.'">
       <label for="item_name" style="font-size: large;">Item Name</label><br>
       <input type="text" required name="item_name" ><br><br>
       <label for="item_description" style="font-size: large;">Description</label><br>
       <input type="text" required name="item_description" ><br><br>
       <label for="newfood" style="font-size: large;">Image</label><br>
-      <input id="fileName" name="image" type="file" accept = "image/*"  onchange="validateImageFile()">
+      <input type="hidden" name="changeImage" id="changeImageCheckbox">
+      <input id="fileToUpload" name="fileToUpload" type="file" accept="image/*" onchange="validateImageFile()"><br><br><br>
       <table border="0">
       <caption style="font-size:xx-large;margin-bottom:20px;color:#115448"><b>Size Details</b></caption>
       <thead>
