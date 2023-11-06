@@ -115,8 +115,9 @@
             $sizeid = $_POST['size_id_' . $i];
             $size_name = $_POST['size_name_' . $i];
             $price = (double) $_POST['price_' . $i];
+            $quantity = $_POST['quantity_' . $i] == "" ? NULL : (int) $_POST['quantity_' . $i];
 
-          if (isset($_POST['quantity_' . $i])) {
+          if (!is_null($quantity)) {
               $quantity = (int) $_POST['quantity_' . $i];
               $stmt = $db->prepare("UPDATE sizes SET name=?, price=?, quantity=? WHERE sizeid=?");
               $stmt->bind_param("sdii", $size_name, $price, $quantity, $sizeid);
@@ -129,10 +130,10 @@
             // Get details of new size
             $size_name = $_POST['size_name_' . $i];
             $price = (double) $_POST['price_' . $i];
-
+            $quantity = $_POST['quantity_' . $i] == "" ? NULL : (int) $_POST['quantity_' . $i];
+            
             // Insert new size
-            if (isset($_POST['quantity_' . $i])) {
-                $quantity = (int) $_POST['quantity_' . $i];
+            if (!is_null($quantity)) {
                 $stmt = $db->prepare("INSERT INTO sizes (itemid, name, price, quantity) VALUES (?, ?, ?, ?)");
                 $stmt->bind_param("isdi", $item_id, $size_name, $price, $quantity);
             } else {
