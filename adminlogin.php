@@ -5,6 +5,7 @@
     }
     //prompt function
     $password = $_REQUEST['hidden'];
+    $password = md5($password);
     
     include "dbconnect.php";
     $query = "SELECT * FROM admin";

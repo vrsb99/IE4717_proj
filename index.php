@@ -86,7 +86,7 @@
   
       <div class="box">
         <div id="verticalflex" > <img src="./img/tuna_salad.jpg" width = 200, height="200" alt="Tuna Salad">
-          <p style="text-align: center;font-size: 20px"> <b>Pizza Rice</b> <br>
+          <p style="text-align: center;font-size: 20px"> <b>Tuna Salad</b> <br>
             All the flavours of a vegetarian supreme, <br>baked into crispy, chewy rice.
           </p>
         </div>

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="stylesheet.css">
   <script src="loadPage.js"></script>  
-  <script src="functionality.php"></script>
+  <script src="functionality.js"></script>
   <script>
     function validateImageFile(){
       var fullPath = document.getElementById("fileToUpload").value;

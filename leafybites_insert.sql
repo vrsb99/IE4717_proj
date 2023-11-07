@@ -49,4 +49,4 @@ INSERT INTO sizes (sizeid, itemid, name, price, quantity) VALUES
 --     (1, 7, 11, 2.00, 3);
 
 INSERT INTO admin (adminid, password) VALUES    
-    (0,"adminpassword");
+    (0,"e3274be5c857fb42ab72d786e281b4b8");

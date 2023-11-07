@@ -97,6 +97,7 @@ h2 {
 .box img{
     width : 300px;
     height: 300px;
+    object-fit: cover;
     border: #115448;}
 
 .button {

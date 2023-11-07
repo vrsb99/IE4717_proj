@@ -26,7 +26,7 @@ function randomPassword() {
 };
 
 $tempPass = randomPassword();
-var_dump($tempPass);
+// var_dump($tempPass);
 $hashTempPass = md5($tempPass);
 
 $query = "SELECT * FROM users";
@@ -65,7 +65,10 @@ $headers = 'From: leafybites@localhost' . "\r\n" .
 
 mail($to, $subject, $message, $headers,'-leafybites@localhost');
 echo ("mail sent to : ".$to);
+
+header("location: login.html");
 }
+
 
 }
 

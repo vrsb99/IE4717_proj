@@ -15,7 +15,8 @@ $password2 = $_POST['confirmPassword'];
 
 // echo ("$username" . "<br />". "$password2" . "<br />");
 if ($password != $password2) {
-	echo "<alert> Sorry passwords do not match";
+	echo "<script> alert('Sorry, passwords do not match')</script>";
+	echo '<script> location.href = "signup.html"</script> ';
 	exit;
 	}
 $password = md5($password);
@@ -28,7 +29,7 @@ $result = $db->query($sql);
 if (!$result) 
 	echo "Your query failed.";
 else
-	$script = '<script>alert("Welcome ' . $username . '. You are now registered! You can now login to Leafy Bites with your details."); window.location.href = "login.php";</script>';
+	$script = '<script>alert("Welcome ' . $username . '. You are now registered! You can now login to Leafy Bites with your details."); window.location.href = "login.html";</script>';
 	echo $script;
 
 	
