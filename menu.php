@@ -1,5 +1,20 @@
 <?php
   include "session_start.php";
+  function checkQuantity($db, $size_id, $quantity) {
+    $cartCounts = array_count_values($_SESSION['cart']);
+    $quantity = $cartCounts[$size_id] + $quantity;
+    $stmt = $db->prepare("SELECT quantity FROM sizes WHERE sizeid = ?");
+    $stmt->bind_param("i", $size_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    $row = $result->fetch_assoc();
+    $quantity_in_stock = $row["quantity"];
+    if (!is_null($quantity_in_stock) && $quantity > $quantity_in_stock) {
+        return $quantity - $quantity_in_stock;
+    }
+    return 0;
+}
 ?>
 
 <!DOCTYPE html>
@@ -11,9 +26,6 @@
   <script src="loadPage.js"></script>
   <script src="functionality.js"></script>
   <script>
-  function notify(){
-      alert("Item added into cart.")
-    }
     window.onscroll = function() {
     var footer = document.querySelector('footer');
     var sidenav = document.querySelector('.sidenav');
@@ -77,16 +89,30 @@
           echo '<script> changelink() </script>';
         }
 
+        // Connect to database
+        include "dbconnect.php";
+
         if (isset($_POST['size_id'])) {
-          array_push($_SESSION['cart'], $_POST['size_id']);
-          header('location: ' . htmlspecialchars($_SERVER['PHP_SELF']) . '?' . SID);
-          exit();
+          $quantity = $_POST['quantity'];
+          $size_id = $_POST['size_id'];
+          $quantity_check = checkQuantity($db, $size_id, $quantity);
+          if ($quantity_check > 0) {
+              echo '<script>alert("Sorry, we only have '.$quantity_check.' of this item left in stock.")</script>';
+          } else {
+              if (!isset($_SESSION['cart'])) {
+                  $_SESSION['cart'] = array();
+              }
+              for ($i = 0; $i < $quantity; $i++) {
+                  array_push($_SESSION['cart'], $_POST['size_id']);
+              }
+              header('location: ' . htmlspecialchars($_SERVER['PHP_SELF']) . '?' . SID);
+              exit();
+          }
       }
       
         echo '<p style="text-align: center;">Your shopping cart contains '.count($_SESSION['cart']).' items</p>';
 
-        // Connect to database
-        include "dbconnect.php";
+        
         // Get all categories
         $query = "SELECT * FROM category";
         $categories = $db->query($query);
@@ -159,7 +185,8 @@
                     }
                        
                         echo '</select>
-                              <button type="submit" class="addButton" onclick="notify()"> Add to Cart</button>
+                              <input type="number" name="quantity" min="1" max="10" value="1" style="width: 50px" oninput=numericValidation(this)>
+                              <button type="submit" class="addButton"> Add to Cart</button>
                         </form>
                         </div>
                         </div>';
@@ -181,7 +208,8 @@
               }
             }
           }
-          echo '</div>';
+    echo '<script type="text/javascript" src="menu.js"></script>
+          </div>';
         ?>
         
   <footer>
