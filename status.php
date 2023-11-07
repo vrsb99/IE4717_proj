@@ -2,8 +2,12 @@
 
 include "session_start.php";
 
-if (isset($_POST["submit"])) {
-
+if (isset($_POST["submit"]) && isset($_POST['form_token'], $_SESSION['form_token']) && $_POST['form_token'] == $_SESSION['form_token'] )  {
+    
+    // When processing the form
+    unset($_SESSION['form_token']);
+    // Process form
+ 
     @ $db = new mysqli("localhost", "root", "", "leafybites");
 
     if (mysqli_connect_errno()) {
@@ -12,9 +16,10 @@ if (isset($_POST["submit"])) {
     }
 
     $size_and_quantity = array();
+
     foreach ($_POST as $key => $value) {
         if (preg_match("/quantity_(\d+)/", $key, $matches)) {
-            // var_dump($matches);  [0]=> string(10) "quantity_6" [1]=> string(1) "6" 
+            // var_dump($matches);  //[0]=> string(10) "quantity_6" [1]=> string(1) "6" 
             $size_id = $matches[1];
             $size_and_quantity[$size_id] = $value;
         }
@@ -25,7 +30,7 @@ if (isset($_POST["submit"])) {
         checkQuantity($db, $size_id, $quantity);
     }
 
-    $email = $_POST["email"];
+    $email = strtolower($_POST["email"]);
     date_default_timezone_set("Asia/Singapore");
     $today = date("Y-m-d H:i:s");
     $stmt = $db->prepare("INSERT INTO customers (email) VALUES (?)");
@@ -93,7 +98,8 @@ In the mean time, if any questions come up, please do not hesitate to message us
     'X-Mailer: PHP/' . phpversion();
 
     mail($to, $subject, $message, $headers,'-leafybites@localhost');
-    echo ("mail sent to : ".$to);
+    unset($_POST["submit"]);
+    // echo ("mail sent to : ".$to);
 
 
     // header("location: menu.php");
@@ -117,6 +123,9 @@ In the mean time, if any questions come up, please do not hesitate to message us
 
     header('location: menu.php');
     exit();
+} else {
+    // Token is invalid or missing
+    header("location: index.php");
 }
 
 function checkQuantity($db, $size_id, $quantity) {
@@ -134,20 +143,21 @@ function checkQuantity($db, $size_id, $quantity) {
 }
 
 function insertOrderItem($db, $orderid, $size_id, $quantity) {
-    $stmt = $db->prepare("SELECT itemid, price FROM sizes WHERE sizeid = ?");
-    $stmt->bind_param("i", $size_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $query = "SELECT items.name as itemname, sizes.name as sizename, sizes.price as 
+    price FROM sizes INNER JOIN items ON sizes.itemid = items.itemid WHERE sizeid = ".$size_id;
+    $result = $db->query($query);
     $row = $result->fetch_assoc();
 
     $orderid = (int) $orderid;
-    $item_id = (int) $row["itemid"];
+    $item_name = $row["itemname"];
+    $size_name = $row["sizename"];
     $price = (float) $row["price"];
     $size_id = (int) $size_id;
     $quantity = (int) $quantity;
 
-    $stmt = $db->prepare("INSERT INTO order_items (orderid, itemid, sizeid, price, quantity) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("iiidi", $orderid, $item_id, $size_id, $price, $quantity);
+    $query = "INSERT INTO order_items VALUES (?, ?, ?, ?, ?)";
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("isssi", $orderid, $item_name, $size_name, $price, $quantity);
     $stmt->execute();
     $stmt->close();
 }

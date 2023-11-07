@@ -202,8 +202,8 @@
 
       echo '</tbody>
       </table>
-      <input type="button" name="Add" value="Add Size" onclick="addSizeRow()" style="font-size: large;" class="button">
-      <input type="submit" name="submit" value="Edit Sizes" style="font-size: large;" class="button"> 
+      <input type="button" name="Add" value="Add Size" onclick="addSizeRow()" style="font-size: large; margin-left:200px; margin-top:20px;width:200px" class="button">
+      <input type="submit" name="submit" value="Submit Changes" style="font-size: large; width:200px" class="button"> 
       </form>
       <script type="text/javascript" src="editable_items.js"></script>
       </div>';
@@ -240,7 +240,7 @@
       </tbody>
       </table>
       <input type="button" name="Add" value="Add Size" onclick="addSizeRow()" style="font-size: large; margin-left:200px; margin-top:20px;width:200px" class="button">
-      <input type="submit" name="submit" value="Done Edit" style="font-size: large; width:200px" class="button">
+      <input type="submit" name="submit" value="Submit Item" style="font-size: large; width:200px" class="button">
       </form>
       <script type="text/javascript" src="editable_items.js"></script>
       </div>';

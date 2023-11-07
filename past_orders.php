@@ -73,11 +73,7 @@
                 <th> Unit Price </th>
                 <th> Price </th>';
             
-            $query = 'SELECT order_items.orderid,order_items.sizeid,sizes.name as sizename,order_items.itemid,items.name,order_items.price,order_items.quantity, (order_items.quantity * order_items.price) as subtotal
-                    FROM order_items
-                    INNER JOIN items ON items.itemid = order_items.itemid
-                    INNER JOIN sizes ON sizes.sizeid = order_items.sizeid
-                    WHERE order_items.orderid =' . $results['orderid'];
+            $query = 'SELECT itemname, sizename, price, quantity, (price * quantity) as subtotal FROM order_items WHERE orderid = ' . $results['orderid'];
             
             $intermediateresult=$db->query($query);
             
@@ -85,13 +81,14 @@
             while($row = $intermediateresult->fetch_assoc()){
             echo "<tr>";
             echo "<td>" . $row['quantity'] . "</td>";
-            echo "<td>" . $row['name'] . "</td>";
+            echo "<td>" . $row['itemname'] . "</td>";
             echo "<td>". $row['sizename'] . "</td>";
             echo "<td>$" . $row['price'] . "</td>";
             echo "<td>$" . $row['subtotal'] . "</td>";
             echo "</tr>";
             $total += $row['subtotal'];
             }
+
             echo "<tr>";
             echo "<td></td>";
             echo "<td></td>";

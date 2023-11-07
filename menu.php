@@ -2,7 +2,7 @@
   include "session_start.php";
   function checkQuantity($db, $size_id, $quantity) {
     $cartCounts = array_count_values($_SESSION['cart']);
-    $quantity = $cartCounts[$size_id] + $quantity;
+    $quantity = isset($cartCounts[$size_id]) ? $cartCounts[$size_id] + $quantity : $quantity;
     $stmt = $db->prepare("SELECT quantity FROM sizes WHERE sizeid = ?");
     $stmt->bind_param("i", $size_id);
     $stmt->execute();
@@ -11,7 +11,7 @@
     $row = $result->fetch_assoc();
     $quantity_in_stock = $row["quantity"];
     if (!is_null($quantity_in_stock) && $quantity > $quantity_in_stock) {
-        return $quantity - $quantity_in_stock;
+        return $quantity_in_stock;
     }
     return 0;
 }
@@ -161,7 +161,8 @@
                     $stmt->execute();
                     $sizes = $stmt->get_result();
                     if ($sizes->num_rows > 0) {
-                    echo '<div class="box" style="background-color:#ccd8cf">  
+                    
+                      echo '<div class="box" style="background-color:#ccd8cf">  
                           <div id="verticalflex">
                           <img src= '.$picture.' alt="Menu Image">
                           <p style="font-size: 20px">
@@ -190,16 +191,30 @@
                         </form>
                         </div>
                         </div>';
-                        $itemCounter++; // Increment counter only if item has sizes to display
-                        if ($itemCounter == $items->num_rows) {
-                          $remainder = $itemCounter % 3;
-                          if ($remainder != 0) {
-                            for ($x = 3 - $remainder; $x > 0; $x--) {
-                              echo '<div class="box"></div>';
-                            }
-                          }
-                        }
+                        
+
+                  } else {
+                    echo '<div class="box" style="background-color:#ccd8cf">
+                          <div id="verticalflex">
+                          <img src= '.$picture.' alt="Menu Image">
+                          <p style="font-size: 20px">
+                              <b>'.$item_name.'</b> <br>
+                              '.wordwrap($item_description, 30, "<br>").'
+                          </p>
+                          <p style="font-size: 16px">Out of stock</p>
+                          </div>
+                          </div>';
                   }
+                  $itemCounter++;
+                  // Increment counter only if item has sizes to display
+                  if ($itemCounter == $items->num_rows) {
+                  $remainder = $itemCounter % 3;
+                  if ($remainder != 0) {
+                    for ($x = 3 - $remainder; $x > 0; $x--) {
+                      echo '<div class="box"></div>';
+                    }
+                  }
+                }
                   if ($itemCounter % 3 == 0 || $itemCounter == $items->num_rows) { 
                   // Close flexcontainer div if 3 items have been displayed or if it is the last item
                     echo '</div>';

@@ -34,12 +34,11 @@ CREATE TABLE orders(
 );
 
 CREATE TABLE order_items(
-    orderid INT UNSIGNED NOT NULL,
-    itemid INT UNSIGNED NOT NULL,
-    sizeid INT UNSIGNED NOT NULL,
+    orderid INT UNSIGNED NOT NULL PRIMARY KEY,
+    itemname VARCHAR(50) NOT NULL,
+    sizename VARCHAR(50) NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     quantity INT UNSIGNED NOT NULL,
-    PRIMARY KEY (orderid, itemid, sizeid),
     FOREIGN KEY (orderid) REFERENCES orders(orderid)
 );
 

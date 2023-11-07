@@ -94,8 +94,8 @@
 
       <div class="box">
         <div id="verticalflex" > <img src="./img/veggie_salad.jpg" width = 200, height="200" alt="Veggie Salad">
-          <p style="text-align: center;font-size: 20px"> <b>Roast Tikka Chicken</b> <br>
-            A new spin on the classic roast chook. <br>Highly recommended by our regulars!
+          <p style="text-align: center;font-size: 20px"> <b>Veggie Salad</b> <br>
+          Our crisp, garden-fresh salad bursting with a rainbow of vegetables, tossed in a zesty vinaigrette. A healthy and flavorful masterpiece for those who crave freshness on their plate. <br>Highly recommended by our regulars!
           </p>
         </div>
       </div>

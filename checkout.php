@@ -100,10 +100,11 @@
       if (isset($script)) {
         echo $script;
       }
-
-      echo '
+      $_SESSION['form_token'] = md5(uniqid(mt_rand(), true));
+      echo ' 
       <div class="flexcontainer" >
       <form action="status.php" method="post" id="customerform">
+      <input type="hidden" name="form_token" value='.$_SESSION['form_token'].' />
       <table border="0">
       <caption style="font-size:xx-large;margin-bottom:20px;color:#115448"><b>Order Details</b></caption>
       <thead>

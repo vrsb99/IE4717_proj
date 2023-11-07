@@ -25,6 +25,6 @@
     $script = '<script> alert("Thank you for your valuable feedback. We love hearing from you!")</script>';
     echo $script; 
     
-    header("location: index.php");
+    echo '<script>location.href = "index.php"</script>';
     exit;
 ?>
