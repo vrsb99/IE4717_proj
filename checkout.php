@@ -42,10 +42,6 @@
     function redirect(){
       location.href="menu.php";
     }
-
-    function hi() {
-      alert("hi")
-    }
   </script>
 
   <?php
