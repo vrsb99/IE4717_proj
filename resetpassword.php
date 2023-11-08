@@ -44,7 +44,7 @@ while ($rows = $results -> fetch_assoc()){
 
 
 $to      = 'f31ee@localhost';
-$subject = 'Order Confirmation Letter';
+$subject = 'Password Reset Email';
 $message = 'Hello '.$email.',
 
 Looks like you are having trouble logging in your account in Leafy Bites. Fear not, we have generated a temporary password for you.
