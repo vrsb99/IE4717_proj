@@ -64,5 +64,18 @@ function validateSubscribeEmail() {
     }
 }
 
+function confirmDeleteCategory(form) {
+  if (confirm("Are you sure you want to delete this category?\nAll items within this category will also be deleted\nThis action cannot be undone.")) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
-
+function confirmDeleteItem(form) {
+  if (confirm("Are you sure you want to delete this item?\nThis action cannot be undone.")) {
+    return true;
+  } else {
+    return false;
+  }
+}
