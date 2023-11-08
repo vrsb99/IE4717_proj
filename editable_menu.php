@@ -99,7 +99,7 @@
             $cat_name = $catrow['name'];
             echo '<li>
             <a href="#'.$cat_id.'">'.$cat_name.'</a>
-            <form action="'.$_SERVER['PHP_SELF'].'" method="POST" style="display:inline;"> 
+            <form action="'.$_SERVER['PHP_SELF'].'" method="POST" style="display:inline;" onsubmit="return confirmDeleteCategory(this);">
               <input type="hidden" name="cat_id" value="'.$cat_id.'">
               <input type="submit" value="Delete">
             </form>
@@ -167,7 +167,7 @@
                   <input type="hidden" name="category_id" value="'.$cat_id.'">
                   <button type="submit" class="editButton">Edit Item</button>
                   </form>
-                  <form action="'.$_SERVER['PHP_SELF'].'" method="post">
+                  <form action="'.$_SERVER['PHP_SELF'].'" method="post" onsubmit="return confirmDeleteItem(this);">
                   <input type="hidden" name="delete_item_id" value="'.$item_id.'">
                   <button type="submit" class="editButton">Delete Item</button>
                   </form>
