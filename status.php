@@ -33,11 +33,23 @@ if (isset($_POST["submit"]) && isset($_POST['form_token'], $_SESSION['form_token
     $email = strtolower($_POST["email"]);
     date_default_timezone_set("Asia/Singapore");
     $today = date("Y-m-d H:i:s");
-    $stmt = $db->prepare("INSERT INTO customers (email) VALUES (?)");
+
+    $stmt = $db->prepare("SELECT customerid FROM customers WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
-    $customerid = $db->insert_id;
+    $result = $stmt->get_result();
     $stmt->close();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $customerid = $row['customerid'];
+    } else {
+        $stmt = $db->prepare("INSERT INTO customers (email) VALUES (?)");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $customerid = $db->insert_id; 
+        $stmt->close();
+    }
 
 
     $stmt = $db->prepare("INSERT INTO orders (customerid, orderdate) VALUES (?, ?)");
@@ -76,7 +88,7 @@ if (isset($_POST["submit"]) && isset($_POST['form_token'], $_SESSION['form_token
 
     $to      = 'f31ee@localhost';
     $subject = 'Order Confirmation Letter';
-    $message = 'Hello '.$email.',
+    $message = 'Hello '.$_POST["name"].',
 ______________________________________________________________________________________________________________________
                         
                                 Your order number is '.$orderid.'
