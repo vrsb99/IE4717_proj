@@ -17,7 +17,7 @@ INSERT INTO items (itemid, categoryid, name, description, image) VALUES
     (9, 3, "Milk", "Our milk is the essence of wholesome goodness, a timeless ingredient that nourishes and delights in every dish it touches.", "soy_milk.jpg");
 
 INSERT INTO sizes (sizeid, itemid, name, price, quantity) VALUES
-    (1, 1, "Regular", 5.00, 10),
+    (1, 1, "Regular", 5.00, 1),
     (2, 2, "Regular", 5.50, NULL),
     (3, 3, "Regular", 6.00, NULL),
     (4, 4, "Regular", 6.50, NULL),
@@ -35,18 +35,6 @@ INSERT INTO sizes (sizeid, itemid, name, price, quantity) VALUES
     (16, 9, "Small", 1.70, NULL),
     (17, 9, "Medium", 2.20, NULL),
     (18, 9, "Large", 2.70, NULL);
-
--- INSERT INTO customers (customerid, email) VALUES
---     (1, "vignesh.rsb@gmail.com"),
---     (2, "vian.chan@gmail.com");
-
--- INSERT INTO orders (orderid, customerid, orderdate) VALUES 
---     (1, 1, "2023-10-23 10:10:10");
-
--- INSERT INTO order_items (orderid, itemid, sizeid, price, quantity) VALUES
---     (1, 1, 1, 5.00, 1),
---     (1, 4, 5, 7.00, 2),
---     (1, 7, 11, 2.00, 3);
 
 INSERT INTO admin (adminid, password) VALUES    
     (0,"e3274be5c857fb42ab72d786e281b4b8");

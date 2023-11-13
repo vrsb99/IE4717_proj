@@ -68,8 +68,6 @@
         </form>
       </nav>
     </header>
-
-  </div>
         <?php
         /*
         Flow:
@@ -226,7 +224,7 @@
     echo '<script type="text/javascript" src="menu.js"></script>
           </div>';
         ?>
-        
+        </div>
   <footer>
     <div id="footer"></div>
   </footer>
