@@ -34,7 +34,7 @@ CREATE TABLE orders(
 );
 
 CREATE TABLE order_items(
-    orderid INT UNSIGNED NOT NULL PRIMARY KEY,
+    orderid INT UNSIGNED NOT NULL,
     itemname VARCHAR(50) NOT NULL,
     sizename VARCHAR(50) NOT NULL,
     price DECIMAL(10, 2) NOT NULL,

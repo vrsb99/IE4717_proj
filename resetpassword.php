@@ -34,7 +34,7 @@ $results = $db->query($query);
 while ($rows = $results -> fetch_assoc()){
   
   if ($rows['email'] == $email) {
-    echo'<script>alert("Email Found")</script>';
+    // echo'<script>alert("Email Found")</script>';
 
     $query = 'Update users '
           ."SET password = '$hashTempPass' "
@@ -66,7 +66,7 @@ $headers = 'From: leafybites@localhost' . "\r\n" .
 mail($to, $subject, $message, $headers,'-leafybites@localhost');
 echo ("mail sent to : ".$to);
 
-header("location: login.html");
+echo '<script>location.href = "login.html"</script>';
 }
 
 

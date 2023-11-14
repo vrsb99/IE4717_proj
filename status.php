@@ -157,6 +157,7 @@ function checkQuantity($db, $size_id, $quantity) {
 function insertOrderItem($db, $orderid, $size_id, $quantity) {
     $query = "SELECT items.name as itemname, sizes.name as sizename, sizes.price as 
     price FROM sizes INNER JOIN items ON sizes.itemid = items.itemid WHERE sizeid = ".$size_id;
+    
     $result = $db->query($query);
     $row = $result->fetch_assoc();
 
