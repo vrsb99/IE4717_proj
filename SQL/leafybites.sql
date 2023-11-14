@@ -56,6 +56,6 @@ CREATE TABLE admin(
 );
 
 CREATE TABLE usersfeedback(
-   customerid INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   customerid INT UNSIGNED NOT NULL,
    feedback TEXT NOT NULL
 ); 
