@@ -66,13 +66,13 @@ $headers = 'From: leafybites@localhost' . "\r\n" .
 mail($to, $subject, $message, $headers,'-leafybites@localhost');
 echo ("mail sent to : ".$to);
 
+
+}
+
+
+}
+
 echo '<script>location.href = "login.html"</script>';
-}
-
-
-}
-
-
 // $previous = "<script>location.href='login.html'</script>";
 // echo $previous;
 // exit();
