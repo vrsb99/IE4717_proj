@@ -236,6 +236,7 @@
           <td><input style="width:50px;text-align:center" required type="text" name="size_name_1"></td>
           <td><input style="width:50px;text-align:center" required type="number" min="0" step="0.01" name="price_1" oninput="numericValidation(this)"></td>
           <td><input style="width:50px;text-align:center" type="number" name="quantity_1" min="0" oninput="numericValidation(this)"></td>
+          <td><input type="hidden" name="new_item" id="new_item" value=""></td>
         </tr>
       </tbody>
       </table>
